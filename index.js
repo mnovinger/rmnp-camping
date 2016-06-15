@@ -1,0 +1,1 @@
+const campsiteJson = require('./.campsite_availability_list.json');
