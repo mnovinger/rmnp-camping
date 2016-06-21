@@ -2,7 +2,7 @@ const _ = require('lodash');
 const pdfUtil = require('pdf-to-text');
 const Promise = require('promise');
 
-const cgSites = require('./resources/campsite-names.json');
+const cgSites = require('./../resources/campsite-names.json');
 const statusRegex = '(\\S*)\\s*(\\S*)\\s*(\\S*)\\s*(\\S*)\\s*(\\S*)\\s*(\\S*)\\s*(\\S*)$';
 const mileageAndElevationRegEx = '\\s(\\d\\.\\d|\\d)\\s{2,4}(\\d+)';
 const mileageAndStatusRegex = mileageAndElevationRegEx+'\\s{12,15}(\\d+\\/\\d\\d)\\s{7}'+statusRegex;
@@ -15,7 +15,7 @@ var parsePage = (page) => {
     var options = {from: page, to: page};
 
     return new Promise((resolve, reject) => {
-        pdfUtil.pdfToText('./resources/campsite_availability_list.pdf',function (err, data) {
+        pdfUtil.pdfToText('./resources/campsite_availability_list-06-16-2016.pdf',function (err, data) {
             if (err)
                 reject(err);
             else {
