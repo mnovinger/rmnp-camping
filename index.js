@@ -15,10 +15,11 @@ var parsePage = (page) => {
     var options = {from: page, to: page};
 
     return new Promise((resolve, reject) => {
-        pdfUtil.pdfToText('./resources/campsite_availability_list.pdf', options, function (err, data) {
+        pdfUtil.pdfToText('./resources/campsite_availability_list.pdf',function (err, data) {
             if (err)
                 reject(err);
             else {
+                console.log(data);
                 var lines = data.split('\n');
                 resolve(lines);
             }
