@@ -6,13 +6,13 @@ const cgSites = require('./resources/campsite-names.json');
 const statusRegex = '(\\S*)\\s*(\\S*)\\s*(\\S*)\\s*(\\S*)\\s*(\\S*)\\s*(\\S*)\\s*(\\S*)$';
 const mileageAndElevationRegEx = '\\s(\\d\\.\\d|\\d)\\s{2,4}(\\d+)';
 const mileageAndStatusRegex = mileageAndElevationRegEx+'\\s{12,15}(\\d+\\/\\d\\d)\\s{7}'+statusRegex;
-const campSiteIdRegEx = '^(\\S*)\\b';
+const campSiteIdRegEx = '^(\\d\\S*)\\b';
 
 const util = require('util');
 
 
 var parsePage = (page) => {
-    var options = {from: page - 1, to: page};
+    var options = {from: page, to: page};
 
     return new Promise((resolve, reject) => {
         pdfUtil.pdfToText('./resources/campsite_availability_list.pdf', options, function (err, data) {
@@ -26,7 +26,7 @@ var parsePage = (page) => {
     });
 };
 
-parsePage(1).then((lines) => {
+parsePage(3).then((lines) => {
     var allStatuses = _.reduce(lines, (acc, line) => {
         const cgData = line.match(mileageAndStatusRegex);
         if (cgData) {
@@ -41,8 +41,20 @@ parsePage(1).then((lines) => {
     }, []);
 
     var allCgsStatus = _.reduce(lines, (acc, line) => {
-        const cgIdAndName = line.match()
+        const cgIdAndName = line.match(campSiteIdRegEx);
+        if (cgIdAndName) {
+            const id = cgIdAndName[1];
+            const name = cgSites.find((site) => {return site.id == id}).name;
+            const data =  allStatuses.shift();
+            acc.push(Object.assign({
+                id,
+                name
+            }, data))
+        }
+        return acc;
     }, []);
+
+    debugger;
 }, (err) => {
     console.error(err);
 });
