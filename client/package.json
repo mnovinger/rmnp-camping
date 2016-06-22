@@ -1,0 +1,38 @@
+{
+  "name": "rmnp-campsite-availability",
+  "version": "1.0.0",
+  "description": "RMNP Campsite Availability Viewer",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "webpack -p --progress",
+    "dev": "webpack --progress --color --watch & nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matt Novinger",
+  "license": "ISC",
+  "dependencies": {
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-register": "^6.9.0",
+    "dateformat": "^1.0.12",
+    "flux": "^2.1.1",
+    "hapi": "^13.4.1",
+    "hapi-react-views": "^9.0.0",
+    "inert": "^4.0.0",
+    "object-assign": "^4.1.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "superagent": "^2.0.0",
+    "vision": "^4.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.10.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "glob": "^7.0.5",
+    "nodemon": "^1.9.2",
+    "webpack": "^1.13.1"
+  }
+}

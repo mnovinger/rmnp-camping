@@ -1,9 +1,2 @@
-## pdf-to-text install
-brew install xpdf
-
-## pdf-extract install
-brew tap docmunch/pdftk
-brew install pdftk
-brew install poppler
-brew install gs
-brew install tesseract
+## rmnp-camping
+#### App to parse the Rocky Mountain National Park Wilderness Office campsite availability pdf
