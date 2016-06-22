@@ -1,8 +1,8 @@
 var glob = require("glob");
 
-var entry = glob.sync("./src/app/!(__unit__)*/*.jsx").concat(glob.sync("./src/app/!(__unit__)*.jsx"));
+var entry = glob.sync("./src/app/!(__unit__)*/*.js").concat(glob.sync("./src/app/!(__unit__)*.js"));
 
-console.log(entry);
+console.log(`entry: ${entry}`);
 module.exports = {
     entry: entry,
     output: {
@@ -12,7 +12,7 @@ module.exports = {
     module: {
         loaders: [
             {
-                test: /\.jsx$/,
+                test: /\.js$/,
                 exclude: /unit|node_modules/,
                 loader: 'babel',
                 query: {
