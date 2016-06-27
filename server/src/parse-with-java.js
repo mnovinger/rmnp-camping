@@ -26,12 +26,15 @@ function readFile(fileName) {
 }
 /*
  https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
+
+ curl -O https://www.nps.gov/webcams-romo/campsite_availability_list.pdf
+
  const exec = require('child_process').exec;
  exec('cat *.js bad_file | wc -l', (error, stdout, stderr) => {
- java -jar pdfbox-app-2.0.2.jar ExtractText -console ~/personal-projects/rmnp-camping/resources/campsite_availability_list-06-16-2016.pdf
+ java -jar pdfbox-app-2.0.2.jar ExtractText -console ~/personal-projects/rmnp-camping/server/resources/campsite_availability_list.pdf
  */
 
-readFile("./resources/campsite_availability_list-06-21-2016.txt").then((data) => {
+readFile("./resources/campsite_availability_list.txt").then((data) => {
     const cgSites = _.map(siteSource, (site) => {
         site.status = [];
         return site;
