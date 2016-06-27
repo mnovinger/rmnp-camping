@@ -2,6 +2,7 @@ const fs = require('fs');
 const _ = require('lodash');
 const util = require('util');
 const Q = require('q');
+const request = require("request");
 const siteSource = require('../resources/campsite-names.json');
 
 const statusRegex = "(FULL|\\d|NA)";
@@ -27,12 +28,27 @@ function readFile(fileName) {
 /*
  https://nodejs.org/api/child_process.html#child_process_child_process_exec_command_options_callback
 
- curl -O https://www.nps.gov/webcams-romo/campsite_availability_list.pdf
+ curl -o ~/personal-projects/rmnp-camping/server/resources/campsite_availability_list.pdf https://www.nps.gov/webcams-romo/campsite_availability_list.pdf
+ java -jar pdfbox-app-2.0.2.jar ExtractText ~/personal-projects/rmnp-camping/server/resources/campsite_availability_list.pdf
+
 
  const exec = require('child_process').exec;
  exec('cat *.js bad_file | wc -l', (error, stdout, stderr) => {
- java -jar pdfbox-app-2.0.2.jar ExtractText -console ~/personal-projects/rmnp-camping/server/resources/campsite_availability_list.pdf
+ java -jar pdfbox-app-2.0.2.jar ExtractText ~/personal-projects/rmnp-camping/server/resources/campsite_availability_list.pdf
  */
+
+function fetchFile() {
+    var deferred = Q.defer();
+    request("https://www.nps.gov/webcams-romo/campsite_availability_list.pdf", function (error, response, body) {
+        if (!error) {
+            // parseMyAwesomeHtml(body);
+            // write to file or return as a stream
+        } else {
+            deferred.reject(new Error(error));
+        }
+    });
+    return deferred.promise;
+}
 
 readFile("./resources/campsite_availability_list.txt").then((data) => {
     const cgSites = _.map(siteSource, (site) => {
@@ -72,7 +88,7 @@ readFile("./resources/campsite_availability_list.txt").then((data) => {
             acc.push({date: allDates[dateIdx], status: status});
             dateIdx++;
             return acc;
-        },[])
+        },[]);
     });
 
     // should be 21 weeks worth

@@ -23,6 +23,9 @@ export function fetchSiteData() {
         agent.get('/campsite-status.json').end(
             (err, res) => {
                 if (res && res.ok) {
+                    /*
+                    validate that we have the same number of dates here?
+                     */
                     dispatch(fetchedSiteData(Immutable.fromJS(res.body)));
                 }
             }

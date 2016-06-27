@@ -23,6 +23,7 @@
     "moment": "^2.13.0",
     "object-assign": "^4.1.0",
     "react": "^15.1.0",
+    "react-addons-pure-render-mixin": "^15.1.0",
     "react-addons-shallow-compare": "^15.1.0",
     "react-bootstrap": "^0.29.5",
     "react-dom": "^15.1.0",
