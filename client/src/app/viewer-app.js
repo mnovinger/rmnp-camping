@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchSiteData,updateFilterText } from './actions/campsite-actions';
-import { getFilterText, getSiteAvailability, getDates } from './reducers/campsite-reducer';
+import { fetchSiteData,updateFilterText, incrementWeekOffset, decrementWeekOffset } from './actions/campsite-actions';
+import { getFilterText, getSiteAvailability, getDates, getWeekOffset } from './reducers/campsite-reducer';
 import FilterInput from './components/filter-input';
 import SiteTable from './components/site-table';
+import CalendarControl from './components/calendar-control';
 
 
 class ViewerApp extends Component {
@@ -13,11 +14,22 @@ class ViewerApp extends Component {
     }
 
     render() {
-        const filterProps = {filterTextFt: this.props.filterTextFt, filterText: this.props.filterText};
-        const tableProps = {dates: this.props.dates, campSiteData: this.props.siteAvailability};
+        const filterProps = {
+            filterTextFt: this.props.filterTextFt,
+            filterText: this.props.filterText
+        };
+        const tableProps = {
+            dates: this.props.dates,
+            campSiteData: this.props.siteAvailability
+        };
+        const calendarControlProps = {
+            dates: this.props.dates,
+            incrementWeekOffset: this.props.incrementWeekOffset,
+            decrementWeekOffset: this.props.decrementWeekOffset
+        };
         return (
             <div>
-                <FilterInput { ...filterProps }/>
+                <div className="controls"><FilterInput { ...filterProps }/> <CalendarControl { ...calendarControlProps }/> </div>
                 <SiteTable { ...tableProps }/>
             </div>
         );
@@ -36,7 +48,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         fetchSiteData: () => dispatch(fetchSiteData()),
-        filterTextFt: (text) => dispatch(updateFilterText(text))
+        filterTextFt: (text) => dispatch(updateFilterText(text)),
+        incrementWeekOffset: () => dispatch(incrementWeekOffset()),
+        decrementWeekOffset: () => dispatch(decrementWeekOffset())
     }
 }
 

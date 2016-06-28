@@ -9,7 +9,7 @@ export default class TableHeader extends React.Component {
 
     render() {
         const dateCells = this.props.dates.map((date) => {
-            return (<th key={date.format('MMDD')} className="status-col">{date.format('MM/DD')}</th>);
+            return (<th key={date.format('MMDD')} className="status-col">{date.format('ddd MM/DD')}</th>);
         });
 
         return (<thead>

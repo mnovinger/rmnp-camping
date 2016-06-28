@@ -5,8 +5,8 @@ export default class CampSiteTable extends React.Component {
 
     render() {
 
-        var siteRows = this.props.campSiteData.map((campsite) => {
-            return <TableRow campSite={campsite}/>
+        var siteRows = this.props.campSiteData.map((campsite, idx) => {
+            return <TableRow key={idx} campSite={campsite}/>
         });
         return (
             <div className="site-table-container">

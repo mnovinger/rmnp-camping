@@ -7,15 +7,15 @@ export default class TableRow extends React.Component {
         super(props);
         this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     }
-    
+
     render() {
         const site = this.props.campSite;
-        const statuses = site.get('status').map((status) => {
-            return <td className="status-col">{status.get('status')}</td>
+        const statuses = site.get('status').map((status, idx) => {
+            return <td key={idx} className="status-col">{status.get('status')}</td>
         });
         return (
             <tr>
-                <td className="site-col">{site.get('name') + '(' + site.get('id') + ')'}</td>
+                <td className="site-col">{site.get('name') + ' (' + site.get('id') + ')'}</td>
                 {statuses}
             </tr>
         );
