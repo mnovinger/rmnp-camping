@@ -115,7 +115,7 @@
 	function fetchSiteData() {
 	    return function (dispatch) {
 
-	        _superagent2.default.get('/campsite-status.json').end(function (err, res) {
+	        _superagent2.default.get('/campsite-availability').end(function (err, res) {
 	            if (res && res.ok) {
 	                /*
 	                validate that we have the same number of dates here?

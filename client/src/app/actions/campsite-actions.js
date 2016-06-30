@@ -34,7 +34,7 @@ export function decrementWeekOffset() {
 export function fetchSiteData() {
     return (dispatch) => {
 
-        agent.get('/campsite-status.json').end(
+        agent.get('/campsite-availability').end(
             (err, res) => {
                 if (res && res.ok) {
                     /*

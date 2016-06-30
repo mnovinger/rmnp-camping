@@ -16,7 +16,7 @@ server.connection({
     port: process.env.PORT || 8000
 });
 
-var sanityCheckAvailability = (data) => {
+var validateAvailability = (data) => {
     /*
      should have cgSiteData array with 139 entries and
      allDates array with 133 entries
@@ -45,7 +45,7 @@ var sanityCheckAvailability = (data) => {
     return isValid;
 };
 
-if (!sanityCheckAvailability(campsiteAvailability)) {
+if (!validateAvailability(campsiteAvailability)) {
     console.error('found issues with the campsite availability, bailing');
     process.exit(1);
 } else {
@@ -106,8 +106,14 @@ server.register([{
         method: 'POST',
         path: '/update-campsite-availability',
         handler: (request, reply) => {
-            console.log('got it ' + util.inspect(request.payload));
-            reply('thanks!');
+            // console.log('got it ' + util.inspect(request.payload));
+            const  newCampsiteAvailability = request.payload;
+            if (validateAvailability(newCampsiteAvailability)) {
+                campsiteAvailability = newCampsiteAvailability;
+                reply('Updated availability.');
+            } else {
+                reply('Rejected new availability.')
+            }
         }
     });
 
