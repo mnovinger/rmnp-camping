@@ -108,7 +108,7 @@ fetchedAndParseTheHardWay().then(() => {
         // console.log(cgSites[0].status.length == 21);
         // console.log(util.inspect(cgSites[0]));
         const fileData = {cgSiteData: cgSites, allDates: allDates};
-        const outputFile = '../client/public/campsite-status.json';
+        const outputFile = '../client/campsite-status.json';
         fs.writeFileSync(outputFile, JSON.stringify(fileData));
         console.log(`wrote ${outputFile}`);
     }, console.error);
