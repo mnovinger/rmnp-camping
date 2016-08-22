@@ -2,6 +2,11 @@ package com.mattnovinger.apps.rmnpcamping;
 
 import org.junit.Test;
 
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -11,7 +16,8 @@ public class AvailabilityParserTest {
 
     @Test
     public void parseAvailability() throws Exception {
+        List<String> allLines = Files.readAllLines(Paths.get("./src/test/fixtures/parsed-availability.txt"), Charset.defaultCharset());
         AvailabilityParser parser = new AvailabilityParser();
-        parser.parseAvailability();
+        parser.parseAvailability(allLines);
     }
 }

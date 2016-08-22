@@ -6,14 +6,36 @@ import com.google.gson.reflect.TypeToken;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collection;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AvailabilityParser {
+    private static final String statusRegex = "(FULL|\\d|NA)";
+    private static final String initialStatusRegex = statusRegex + statusRegex + statusRegex + statusRegex + statusRegex + statusRegex;
+    private static final String siteIdRegex = "([\\d]{2,3}[A-Za-z]{0,2}-?\\d?)";
+    private static final String lastSnowDateRegex = "(\\d\\d?/\\d\\d)";
+    private static final String elevationAndDistanceRegex = "\\d+.?\\d?\\w+\\s?[A-Za-z ()/-]+";
+
+    private static final Pattern statusLineRegex = Pattern.compile("^" + initialStatusRegex + lastSnowDateRegex + elevationAndDistanceRegex + siteIdRegex + "\\s" + statusRegex);
+
+    private static final String dateRegex = "(\\d{1,2}\\/\\d{1,2}\\/\\d{4})";
+    private static final Pattern dateLineRegex = Pattern.compile("^" + dateRegex + dateRegex + dateRegex + dateRegex + dateRegex + dateRegex + "\\s" + dateRegex + "$");
     /**
+     *
+     const statusRegex = "(FULL|\\d|NA)";
+     const initialStatusRegex = statusRegex + statusRegex + statusRegex + statusRegex + statusRegex + statusRegex;
+     const siteIdRegex = "([\\d]{2,3}[A-Za-z]{0,2}-?\\d?)";
+     const lastSnowDateRegex = "(\\d\\d?/\\d\\d)";
+     const statusLineRegex = "^" + initialStatusRegex + lastSnowDateRegex + "\\d+.?\\d?\\w+\\s?[[A-Za-z ()/-]+" + siteIdRegex + "\\s" + statusRegex + "$";
+     const dateRegex = "(\\d{1,2}\\/\\d{1,2}\\/\\d{4})";
+     const dateLineRegex = "^" + dateRegex + dateRegex + dateRegex + dateRegex + dateRegex + dateRegex + "\\s" + dateRegex + "$";
+
      *   const cgSites = _.map(siteSource, (site) => {
             site.status = [];
             return site;
@@ -65,11 +87,20 @@ public class AvailabilityParser {
         console.log(`wrote ${outputFile}`);
 
      */
-    public void parseAvailability() throws IOException {
+    public void parseAvailability(List<String> availability) throws IOException {
         Gson gson = new Gson();
         byte[] bytes = Files.readAllBytes(Paths.get("/Users/mnovinger/personal-projects/rmnp-camping/java-server/src/main/resources/campsite-names.json"));
         Type campSiteType = new TypeToken<Collection<CampSite>>(){}.getType();
         Collection<CampSite> campSites = gson.fromJson(new String(bytes, Charset.defaultCharset()), campSiteType);
+
+        Map<String, List<Boolean>> availabilityBySiteId = new HashMap<String, List<Boolean>>();
+
+        for (String line: availability) {
+            Matcher matcher = statusLineRegex.matcher(line);
+            if (matcher.matches()) {
+                System.out.println(line);
+            }
+        }
         System.out.println();
     }
 }
