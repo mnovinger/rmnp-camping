@@ -1,10 +1,9 @@
-package com.mattnovinger.apps.rmnpcamping;
+package com.mattnovinger.apps.rmnpcamping.func;
 
+import com.mattnovinger.apps.rmnpcamping.func.PdfExtractor;
 import org.junit.Test;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;

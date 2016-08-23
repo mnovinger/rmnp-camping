@@ -1,5 +1,7 @@
-package com.mattnovinger.apps.rmnpcamping;
+package com.mattnovinger.apps.rmnpcamping.func;
 
+import com.mattnovinger.apps.rmnpcamping.domain.CampSite;
+import com.mattnovinger.apps.rmnpcamping.func.AvailabilityParser;
 import org.junit.Test;
 
 import java.nio.charset.Charset;

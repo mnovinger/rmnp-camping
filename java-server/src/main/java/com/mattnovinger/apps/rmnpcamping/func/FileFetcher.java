@@ -1,4 +1,4 @@
-package com.mattnovinger.apps.rmnpcamping;
+package com.mattnovinger.apps.rmnpcamping.func;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;

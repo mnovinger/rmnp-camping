@@ -1,4 +1,4 @@
-package com.mattnovinger.apps.rmnpcamping;
+package com.mattnovinger.apps.rmnpcamping.domain;
 
 import java.util.List;
 
