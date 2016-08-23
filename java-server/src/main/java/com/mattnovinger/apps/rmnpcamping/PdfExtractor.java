@@ -14,7 +14,7 @@ import java.util.List;
 
 public class PdfExtractor {
 
-    public List<String> extract(InputStream pdf) throws IOException {
+    public static List<String> extract(InputStream pdf) throws IOException {
         PDDocument document = PDDocument.load(pdf);
         PDFTextStripper stripper = new PDFTextStripper();
         StringWriter parsed = new StringWriter();

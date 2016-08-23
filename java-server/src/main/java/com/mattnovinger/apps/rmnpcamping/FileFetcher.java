@@ -12,7 +12,7 @@ import java.io.InputStream;
 public class FileFetcher {
     private static final String AVAILABILITY_URL = "https://www.nps.gov/webcams-romo/campsite_availability_list.pdf";
 
-    public InputStream fetchFile() throws IOException {
+    public static InputStream fetchFile() throws IOException {
         HttpClient httpclient = new DefaultHttpClient();
         HttpGet httpget = new HttpGet(AVAILABILITY_URL);
         HttpResponse response = httpclient.execute(httpget);

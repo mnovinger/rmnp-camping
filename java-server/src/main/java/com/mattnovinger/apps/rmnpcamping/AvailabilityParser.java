@@ -3,20 +3,19 @@ package com.mattnovinger.apps.rmnpcamping;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class AvailabilityParser {
     private static final String statusRegex = "(FULL|\\d|NA)";
@@ -89,12 +88,12 @@ public class AvailabilityParser {
      * fs.writeFileSync(outputFile, JSON.stringify(fileData));
      * console.log(`wrote ${outputFile}`);
      */
-    public void parseAvailability(List<String> availability) throws IOException {
+    public static List<CampSite> parseAvailability(List<String> availability) throws IOException {
         Gson gson = new Gson();
         byte[] bytes = Files.readAllBytes(Paths.get("/Users/mnovinger/personal-projects/rmnp-camping/java-server/src/main/resources/campsite-names.json"));
         Type campSiteType = new TypeToken<Collection<CampSite>>() {
         }.getType();
-        Collection<CampSite> campSites = gson.fromJson(new String(bytes, Charset.defaultCharset()), campSiteType);
+        List<CampSite> campSites = gson.fromJson(new String(bytes, Charset.defaultCharset()), campSiteType);
 
         Map<String, List<String>> availabilityBySiteId = new HashMap<>();
         for (CampSite site : campSites) {
@@ -128,6 +127,25 @@ public class AvailabilityParser {
             }
 
         }
-        System.out.println();
+
+        DateFormat df = new SimpleDateFormat("M/d/yyyy");
+        campSites.stream().forEach(site -> {
+            ArrayList<CampSiteAvailability> siteAvailabilities = new ArrayList<>();
+            List<String> statues = availabilityBySiteId.get(site.getId());
+            for (int idx = 0; idx < statues.size() ; idx++) {
+                String status = statues.get(idx);
+                String dateString = allDates.get(idx);
+
+                Date parse = null;
+                try {
+                    parse = df.parse(dateString);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                siteAvailabilities.add(new CampSiteAvailability(parse, status));
+            }
+            site.setAvailability(siteAvailabilities);
+        });
+        return campSites;
     }
 }
