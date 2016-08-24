@@ -6,6 +6,8 @@ import com.mattnovinger.apps.rmnpcamping.domain.CampSite;
 import com.mattnovinger.apps.rmnpcamping.domain.CampSiteAvailability;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -33,10 +35,12 @@ public class AvailabilityParser {
 
     public static List<CampSite> parseAvailability(List<String> availability) throws IOException {
         Gson gson = new Gson();
-        byte[] bytes = Files.readAllBytes(Paths.get("/Users/mnovinger/personal-projects/rmnp-camping/java-server/src/main/resources/campsite-names.json"));
+//        byte[] bytes = Files.readAllBytes(Paths.get("./"));
+        InputStream campsiteData = AvailabilityParser.class.getClassLoader().getResourceAsStream("campsite-names.json");
+
         Type campSiteType = new TypeToken<Collection<CampSite>>() {
         }.getType();
-        List<CampSite> campSites = gson.fromJson(new String(bytes, Charset.defaultCharset()), campSiteType);
+        List<CampSite> campSites = gson.fromJson(new InputStreamReader(campsiteData), campSiteType);
 
         Map<String, List<String>> availabilityBySiteId = new HashMap<>();
         for (CampSite site : campSites) {
