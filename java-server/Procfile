@@ -1,1 +1,1 @@
-web:    java $JAVA_OPTS -cp target/classes:target/dependency/* com.mattnovinger.apps.rmnpcamping.App
+web: java $JAVA_OPTS -Dserver.port=$PORT -jar rmnp-camping-backend-0.1.0.jar

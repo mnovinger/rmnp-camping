@@ -14,9 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
 /**
  * Created by mnovinger on 8/22/16.
  */
+@Component
 @Path("/home")
 public class AvailabilityGenerator {
     private String cachedAvailabilityJson = null;
