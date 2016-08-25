@@ -35,7 +35,6 @@ public class AvailabilityParser {
 
     public static List<CampSite> parseAvailability(List<String> availability) throws IOException {
         Gson gson = new Gson();
-//        byte[] bytes = Files.readAllBytes(Paths.get("./"));
         InputStream campsiteData = AvailabilityParser.class.getClassLoader().getResourceAsStream("campsite-names.json");
 
         Type campSiteType = new TypeToken<Collection<CampSite>>() {

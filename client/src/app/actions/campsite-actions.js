@@ -34,7 +34,7 @@ export function decrementWeekOffset() {
 export function fetchSiteData() {
     return (dispatch) => {
 
-        agent.get('/campsite-availability').end(
+        agent.get('http://rmnp-camping-backend.herokuapp.com/home/availability').end(
             (err, res) => {
                 if (res && res.ok) {
                     /*
