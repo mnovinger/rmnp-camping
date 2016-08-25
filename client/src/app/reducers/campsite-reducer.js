@@ -26,12 +26,13 @@ export function getSiteAvailability(state) {
     });
 
     return filteredSites.map((site) => {
-        const filteredStatus = site.get('status').skip(getWeekOffset(state) * 7).take(7);
-        return site.set('status', filteredStatus);
+        const filteredStatus = site.get('availability').skip(getWeekOffset(state) * 7).take(7);
+        return site.set('availability', filteredStatus);
     });
 }
 
 export function getDates(state) {
+    debugger;
     return state.get('allDates').skip(getWeekOffset(state) * 7).take(7);
 }
 

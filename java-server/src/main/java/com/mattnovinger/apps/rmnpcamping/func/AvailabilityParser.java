@@ -57,7 +57,7 @@ public class AvailabilityParser {
                         .collect(Collectors.toList());
 
                 if (!availabilityBySiteId.containsKey(siteId)) {
-                    System.err.println("Couldn't find siteId:"+siteId);
+                    System.err.println("Couldn't find siteId:" + siteId);
                 }
                 availabilityBySiteId.get(siteId).addAll(statuses);
             } else {
@@ -67,7 +67,16 @@ public class AvailabilityParser {
                             .mapToObj(matcher::group)
                             .collect(Collectors.toList());
 
-                    allDates.addAll(dates);
+                    /*
+                    Date lines appear more than once, but only add them once. Keep the ordering (which isn't
+                    chronological) because the statuses appear in this order too.
+                     */
+                    dates.stream().forEach(date -> {
+                        if (!allDates.contains(date)) {
+                            allDates.add(date);
+                        }
+                    });
+
                 }
 
             }
@@ -78,7 +87,7 @@ public class AvailabilityParser {
         campSites.stream().forEach(site -> {
             ArrayList<CampSiteAvailability> siteAvailabilities = new ArrayList<>();
             List<String> statues = availabilityBySiteId.get(site.getId());
-            for (int idx = 0; idx < statues.size() ; idx++) {
+            for (int idx = 0; idx < statues.size(); idx++) {
                 String status = statues.get(idx);
                 String dateString = allDates.get(idx);
 

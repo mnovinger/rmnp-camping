@@ -22,6 +22,6 @@ public class AvailabilityParserTest {
         AvailabilityParser parser = new AvailabilityParser();
         List<CampSite> campSites = parser.parseAvailability(allLines);
         assertEquals(139, campSites.size());
-        assertEquals(114, campSites.get(10).getAvailability().size());
+        assertEquals(66, campSites.get(10).getAvailability().size());
     }
 }

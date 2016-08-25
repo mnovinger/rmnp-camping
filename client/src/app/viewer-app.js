@@ -14,6 +14,7 @@ class ViewerApp extends Component {
     }
 
     render() {
+      debugger;
         const filterProps = {
             filterTextFt: this.props.filterTextFt,
             filterText: this.props.filterText
@@ -37,12 +38,13 @@ class ViewerApp extends Component {
 }
 
 function mapStateToProps(state) {
-    return {
-        state: state,
-        filterText: getFilterText(state),
-        dates: getDates(state),
-        siteAvailability: getSiteAvailability(state)
-    }
+  var retVal = {
+    state: state,
+    filterText: getFilterText(state),
+    dates: getDates(state),
+    siteAvailability: getSiteAvailability(state)
+  }
+    return retVal;
 }
 
 function mapDispatchToProps(dispatch) {
