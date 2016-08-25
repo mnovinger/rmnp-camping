@@ -19,10 +19,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 /**
  * Created by mnovinger on 8/22/16.
  */
 @Component
+@CrossOrigin(origins = "http://rmnp-camping.herokuapp.com/")
 @Path("/home")
 public class AvailabilityGenerator {
     private String cachedAvailabilityJson = null;
