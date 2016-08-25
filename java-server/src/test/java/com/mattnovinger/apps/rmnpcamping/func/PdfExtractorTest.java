@@ -1,9 +1,14 @@
 package com.mattnovinger.apps.rmnpcamping.func;
 
 import com.mattnovinger.apps.rmnpcamping.func.PdfExtractor;
+import org.apache.pdfbox.io.IOUtils;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -17,6 +22,14 @@ public class PdfExtractorTest {
         PdfExtractor pdfExtractor = new PdfExtractor();
         List<String> text = pdfExtractor.extract(Files.newInputStream(Paths.get("./src/test/fixtures/campsite_availability_list.pdf")));
         assertEquals(3097, text.size());
+
+
+        PDDocument document = PDDocument.load(Files.newInputStream(Paths.get("./src/test/fixtures/campsite_availability_list.pdf")));
+        PDFTextStripper stripper = new PDFTextStripper();
+        StringWriter parsed = new StringWriter();
+        stripper.writeText(document, parsed);
+        IOUtils.closeQuietly(document);
+        Files.write(Paths.get("./src/test/fixtures/parsed-availability"), parsed.toString().getBytes());
     }
 
 }

@@ -90,6 +90,7 @@ public class AvailabilityParser {
                 }
                 siteAvailabilities.add(new CampSiteAvailability(parse, status));
             }
+            siteAvailabilities.sort((o1, o2) -> o1.getDate().compareTo(o2.getDate()));
             site.setAvailability(siteAvailabilities);
         });
         return campSites;

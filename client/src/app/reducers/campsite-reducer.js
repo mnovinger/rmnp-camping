@@ -54,25 +54,12 @@ export function campSiteReducer(state = initialState, action = null) {
             /*
             normalize the dates to moment objects and sort them.
              */
-            const allDates = action.payload.get('allDates')
-                .map((date) => {
-                    return moment(date,'M/D/YYYY')
-                })
-                .sort((a,b) => {
-                    return a.isBefore(b) ? -1 : 1
-                });
-            const cgData = action.payload.get('cgSiteData')
-                .map((site) => {
-                    const status = site.get('status')
-                        .map((status) => {
-                            return status.set('date', moment(status.get('date'), 'M/D/YYYY'));
-                        })
-                        .sort((a,b) => {
-                            return a.get('date').isBefore(b.get('date')) ? -1 : 1
-                        });
-                    return site.set('status',status);
-                });
-            return state.set('campsiteData',cgData).set('allDates',allDates);
+            debugger;
+            const allDates = action.payload.get(0).get('availability')
+            .map((date) => {
+              return moment(date,'M/D/YYYY')
+            });
+            return state.set('campsiteData',action.payload).set('allDates',allDates);
 
         case FILTER_TEXT_CHANGED:
             return state.set('filterText', action.payload);

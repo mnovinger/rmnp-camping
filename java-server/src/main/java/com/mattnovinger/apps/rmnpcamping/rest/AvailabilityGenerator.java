@@ -1,6 +1,7 @@
 package com.mattnovinger.apps.rmnpcamping.rest;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mattnovinger.apps.rmnpcamping.domain.CampSite;
 import com.mattnovinger.apps.rmnpcamping.func.AvailabilityParser;
 import com.mattnovinger.apps.rmnpcamping.func.FileFetcher;
@@ -12,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -25,8 +27,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  * Created by mnovinger on 8/22/16.
  */
 @Component
-@CrossOrigin(origins = "http://rmnp-camping.herokuapp.com/")
-@Path("/home")
+@CrossOrigin
+@Path("/")
 public class AvailabilityGenerator {
     private String cachedAvailabilityJson = null;
     private LocalDateTime lastFetchDate = null;
@@ -40,7 +42,8 @@ public class AvailabilityGenerator {
                 InputStream pdfFile = FileFetcher.fetchFile();
                 List<String> extractedAvailabilityTest = PdfExtractor.extract(pdfFile);
                 List<CampSite> cachedCampsites = AvailabilityParser.parseAvailability(extractedAvailabilityTest);
-                Gson gson = new Gson();
+                Gson gson = new GsonBuilder()
+                        .setDateFormat(DateFormat.SHORT, DateFormat.SHORT).create();
                 cachedAvailabilityJson = gson.toJson(cachedCampsites);
                 lastFetchDate = LocalDateTime.now();
             } catch (IOException e) {
