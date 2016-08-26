@@ -34,7 +34,7 @@ export function decrementWeekOffset() {
 export function fetchSiteData() {
     return (dispatch) => {
 
-        agent.get('http://localhost:8182/api/availability').end(
+        agent.get('/api/availability').end(
             (err, res) => {
                 if (res && res.ok) {
                     /*
