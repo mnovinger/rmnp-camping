@@ -30,7 +30,7 @@ public class AvailabilityParser2017 extends AvailabilityParser {
 
         return new ArrayList<>(parseAvailability(availabilityString, uniqueDates));
     }
-    
+
     private Collection<CampSite> parseAvailability(String availabilityString, List<LocalDate> uniqueDates) {
         Map<String, CampSite> idsToStatus = new HashMap<>();
         Matcher statusMatcher = NAME_AND_STATUS_PATTERN.matcher(availabilityString);
