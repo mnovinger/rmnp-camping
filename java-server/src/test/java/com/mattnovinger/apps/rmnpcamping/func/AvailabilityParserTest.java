@@ -18,7 +18,7 @@ public class AvailabilityParserTest {
 
     @Test
     public void parseAvailability() throws Exception {
-        List<String> allLines = Files.readAllLines(Paths.get("./src/test/fixtures/parsed-availability.txt"), Charset.defaultCharset());
+        List<String> allLines = Files.readAllLines(Paths.get("./src/test/fixtures/parsed-availability-08-25-2016.txt"), Charset.defaultCharset());
         AvailabilityParser parser = new AvailabilityParser();
         List<CampSite> campSites = parser.parseAvailability(allLines);
         assertEquals(139, campSites.size());
