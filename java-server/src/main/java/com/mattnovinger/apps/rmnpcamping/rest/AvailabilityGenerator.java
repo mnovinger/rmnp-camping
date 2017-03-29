@@ -3,7 +3,7 @@ package com.mattnovinger.apps.rmnpcamping.rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mattnovinger.apps.rmnpcamping.domain.CampSite;
-import com.mattnovinger.apps.rmnpcamping.func.AvailabilityParser;
+import com.mattnovinger.apps.rmnpcamping.func.parse2016.AvailabilityParser2016;
 import com.mattnovinger.apps.rmnpcamping.func.FileFetcher;
 import com.mattnovinger.apps.rmnpcamping.func.PdfExtractor;
 
@@ -16,8 +16,6 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -40,8 +38,9 @@ public class AvailabilityGenerator {
         if (cachedAvailabilityJson == null || moreThanSixHoursSinceUpdate(lastFetchDate)) {
             try {
                 InputStream pdfFile = FileFetcher.fetchFile();
-                List<String> extractedAvailabilityTest = PdfExtractor.extract(pdfFile);
-                List<CampSite> cachedCampsites = AvailabilityParser.parseAvailability(extractedAvailabilityTest);
+                String extractedAvailabilityTest = PdfExtractor.extract(pdfFile);
+                com.mattnovinger.apps.rmnpcamping.func.AvailabilityParser parser = new AvailabilityParser2016();
+                List<CampSite> cachedCampsites = parser.buildAvailability(extractedAvailabilityTest);
                 Gson gson = new GsonBuilder()
                         .setDateFormat(DateFormat.SHORT, DateFormat.SHORT).create();
                 cachedAvailabilityJson = gson.toJson(cachedCampsites);

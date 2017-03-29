@@ -14,13 +14,13 @@ import java.util.List;
 
 public class PdfExtractor {
 
-    public static List<String> extract(InputStream pdf) throws IOException {
+    public static String extract(InputStream pdf) throws IOException {
         PDDocument document = PDDocument.load(pdf);
         PDFTextStripper stripper = new PDFTextStripper();
         StringWriter parsed = new StringWriter();
         stripper.writeText(document, parsed);
         IOUtils.closeQuietly(document);
 
-        return Arrays.asList(parsed.toString().split("\n"));
+        return parsed.toString();
     }
 }
