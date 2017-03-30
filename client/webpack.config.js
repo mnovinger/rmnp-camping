@@ -1,14 +1,23 @@
-var glob = require("glob");
+const glob = require("glob");
+const webpack = require("webpack");
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-var entry = glob.sync("./src/app/!(__unit__)*/*.js").concat(glob.sync("./src/app/!(__unit__)*.js"));
+const entry = glob.sync("./src/app/!(__unit__)*/*.js").concat(glob.sync("./src/app/!(__unit__)*.js"));
 
 console.log(`entry: ${entry}`);
 module.exports = {
-    entry: entry,
+    entry: {
+        app: entry,
+        vendor: ["react","redux","react-bootstrap","react-dom","immutable","moment"]
+    },
     output: {
         path: __dirname + '/public/js',
         filename: 'bundle.js'
     },
+    plugins: [
+        new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor", /* filename= */"vendor.bundle.js")//,
+        //new BundleAnalyzerPlugin()
+    ],
     devtool: 'eval-source-map',
     module: {
         loaders: [

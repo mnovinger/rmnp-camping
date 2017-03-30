@@ -19,7 +19,7 @@ export default class FilterInput extends Component {
                 <form>
                     <FormGroup controlId="formControlsText">
                         <ControlLabel>Type to Filter</ControlLabel>
-                        <FormControl type='text' ref="filterText" placeholder="Type to filter by test label."
+                        <FormControl type='text' ref="filterText" placeholder="site name."
                                      onChange={this._onFilterTextChange.bind(this)} value={this.props.filterText}
                                      wrapperClassName='col-sm-4 inputhack'
                                      onKeyPress={this._preventEnterSubmission}>

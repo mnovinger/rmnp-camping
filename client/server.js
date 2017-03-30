@@ -2,13 +2,14 @@
 require('babel-register')({
     presets: ['es2015', 'react']
 });
-var Hapi = require('hapi');
-var dateFormat = require('dateformat');
-var format = "dd mmm HH:MM:ss";
-var util = require('util');
+const Hapi = require('hapi');
+const dateFormat = require('dateformat');
+const format = "dd mmm HH:MM:ss";
+const util = require('util');
+const agent = require('superagent');
 
 // Basic Hapi.js connection stuff
-var server = new Hapi.Server();
+const server = new Hapi.Server();
 server.connection({
     host: '0.0.0.0',
     port: process.env.PORT || 8000
@@ -22,7 +23,7 @@ server.register([{
     register: require('inert')
 }, {
     register: require('vision')
-}], function (err) {
+}], function(err) {
 
     if (err) return console.error(err);
 
@@ -56,7 +57,19 @@ server.register([{
         }
     });
 
-    server.start(function () {
+    server.route({
+        method: 'GET',
+        path: '/api/availability',
+        handler: (request, reply) => {
+            agent.get('http://localhost:8080/api/availability')
+                .end((err, res) => {
+                    reply(res.body);
+                });
+        }
+    })
+
+    server.start(function() {
+        console.log('proxying to java server at http://localhost:8080');
         console.log(dateFormat(new Date(), format) + ' - Server started at: ' + server.info.uri);
     });
 

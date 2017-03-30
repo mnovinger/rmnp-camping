@@ -9,7 +9,7 @@ export default class CampSiteTable extends React.Component {
             return <TableRow key={idx} campSite={campsite}/>
         });
         return (
-            <div className="site-table-container">
+            <div className="site-table-container container-fluid">
                 <table className="site-table">
                     <TableHeader dates={this.props.dates}/>
                     <tbody>

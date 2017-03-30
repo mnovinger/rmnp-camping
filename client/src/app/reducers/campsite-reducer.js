@@ -32,7 +32,6 @@ export function getSiteAvailability(state) {
 }
 
 export function getDates(state) {
-    debugger;
     return state.get('allDates').skip(getWeekOffset(state) * 7).take(7);
 }
 
@@ -55,12 +54,11 @@ export function campSiteReducer(state = initialState, action = null) {
             /*
             normalize the dates to moment objects and sort them.
              */
-            debugger;
             const allDates = action.payload.get(0).get('availability')
-            .map((date) => {
-              return moment(date,'M/D/YYYY')
-            });
-            return state.set('campsiteData',action.payload).set('allDates',allDates);
+                .map((date) => {
+                    return moment(date, 'M/D/YYYY')
+                });
+            return state.set('campsiteData', action.payload).set('allDates', allDates);
 
         case FILTER_TEXT_CHANGED:
             return state.set('filterText', action.payload);

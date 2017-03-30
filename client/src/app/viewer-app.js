@@ -14,7 +14,6 @@ class ViewerApp extends Component {
     }
 
     render() {
-      debugger;
         const filterProps = {
             filterTextFt: this.props.filterTextFt,
             filterText: this.props.filterText
@@ -30,7 +29,13 @@ class ViewerApp extends Component {
         };
         return (
             <div>
-                <div className="controls"><FilterInput { ...filterProps }/> <CalendarControl { ...calendarControlProps }/> </div>
+                <div className="container-fluid header-container">
+                    <div className="header"></div>
+                    <div className="controls">
+                        <FilterInput { ...filterProps }/> 
+                        <CalendarControl { ...calendarControlProps }/> 
+                    </div>
+                </div>
                 <SiteTable { ...tableProps }/>
             </div>
         );
