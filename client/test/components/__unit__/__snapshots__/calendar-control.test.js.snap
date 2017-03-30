@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The CalendarControl Component should render correctly 1`] = `
+<div
+  className="calendar-control"
+>
+  <img
+    className="cal-back-arrow cal-arrows"
+    onClick={[Function]}
+    src="kuba_arrow_back.png"
+  />
+  <div
+    className="cal-control-text"
+  >
+    Move calendar
+  </div>
+  <img
+    className="cal-forward-arrow cal-arrows"
+    onClick={[Function]}
+    src="kuba_arrow_forward.png"
+  />
+</div>
+`;

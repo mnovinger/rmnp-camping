@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The CalendarControl Component should render correctly 1`] = `
+<div
+  className="filter-input"
+>
+  <div
+    class="form-group"
+  >
+    <label
+      class="control-label"
+      for="formControlsText"
+    >
+      Type to Filter
+    </label>
+    <input
+      className="form-control"
+      onChange={[Function]}
+      onKeyPress={undefined}
+      placeholder="site name."
+      type="text"
+      value="Some Text"
+    />
+  </div>
+</div>
+`;
