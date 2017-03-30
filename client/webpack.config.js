@@ -8,7 +8,7 @@ console.log(`entry: ${entry}`);
 module.exports = {
     entry: {
         app: entry,
-        vendor: ["react","redux","react-bootstrap","react-dom","immutable","moment"]
+        vendor: ["react","redux","react-dom","immutable","moment"]
     },
     output: {
         path: __dirname + '/public/js',

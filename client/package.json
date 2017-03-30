@@ -25,7 +25,6 @@
     "react": "^15.1.0",
     "react-addons-pure-render-mixin": "^15.1.0",
     "react-addons-shallow-compare": "^15.1.0",
-    "react-bootstrap": "^0.29.5",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
     "react-virtualized": "^7.11.0",
