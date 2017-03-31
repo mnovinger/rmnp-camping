@@ -53,7 +53,8 @@ export function campSiteReducer(state = initialState, action = null) {
           .map((date) => {
               return moment(date, 'M/D/YYYY');
           });
-        return state.set('campsiteData', action.payload).set('allDates', allDates);
+        const campSiteData = action.payload.sort();
+        return state.set('campsiteData', campSiteData).set('allDates', allDates);
     }
     case FILTER_TEXT_CHANGED:
         return state.set('filterText', action.payload);

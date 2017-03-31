@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 /* eslint-enable no-unused-vars */
 import './styles/site.css';
 import FilterInput from './filter-input';
@@ -22,16 +22,17 @@ export default class Site extends Component {
             decrementWeekOffset: this.props.decrementWeekOffset
         };
         return (
-      <div>
-        <div className="container-fluid header-container">
-          <div className="header"></div>
-          <div className="controls">
-            <FilterInput { ...filterProps }/>
-            <CalendarControl { ...calendarControlProps }/>
+          <div>
+              <div className="container-fluid header-container">
+                  <div className="header"></div>
+                  <div className="logo"></div>
+                  <div className="controls">
+                      <FilterInput { ...filterProps }/>
+                      <CalendarControl { ...calendarControlProps }/>
+                  </div>
+              </div>
+              <SiteTable { ...tableProps }/>
           </div>
-        </div>
-        <SiteTable { ...tableProps }/>
-      </div>
         );
     }
 }
