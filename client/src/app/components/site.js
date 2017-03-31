@@ -5,21 +5,21 @@ import SiteTable from './site-table';
 import CalendarControl from './calendar-control';
 
 export default class Site extends Component {
-  render() {
-    const filterProps = {
-      filterTextFt: this.props.filterTextFt,
-      filterText: this.props.filterText
-    };
-    const tableProps = {
-      dates: this.props.dates,
-      campSiteData: this.props.siteAvailability
-    };
-    const calendarControlProps = {
-      dates: this.props.dates,
-      incrementWeekOffset: this.props.incrementWeekOffset,
-      decrementWeekOffset: this.props.decrementWeekOffset
-    };
-    return (
+    render() {
+        const filterProps = {
+            filterTextFt: this.props.filterTextFt,
+            filterText: this.props.filterText
+        };
+        const tableProps = {
+            dates: this.props.dates,
+            campSiteData: this.props.siteAvailability
+        };
+        const calendarControlProps = {
+            dates: this.props.dates,
+            incrementWeekOffset: this.props.incrementWeekOffset,
+            decrementWeekOffset: this.props.decrementWeekOffset
+        };
+        return (
       <div>
         <div className="container-fluid header-container">
           <div className="header"></div>
@@ -30,6 +30,6 @@ export default class Site extends Component {
         </div>
         <SiteTable { ...tableProps }/>
       </div>
-    );
-  }
+        );
+    }
 }

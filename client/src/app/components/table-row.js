@@ -10,7 +10,7 @@ export default class TableRow extends React.Component {
     render() {
         const site = this.props.campSite;
         const statuses = site.get('availability').map((status, idx) => {
-            return <td key={idx} className="status-col">{status.get('status')}</td>
+            return <td key={idx} className="status-col">{status.get('status')}</td>;
         });
         return (
             <tr>

@@ -6,14 +6,11 @@ export const initialState = Immutable.fromJS({
     campsiteData: [],
     allDates: [],
     selectedDates: [],
-    filterText: "",
+    filterText: '',
     weekOffset: 0
 });
 
-export const stateKey = 'campsite';
-
 export function getFilterText(state) {
-    debugger;
     return state.get('filterText');
 }
 
@@ -38,29 +35,30 @@ export function getWeekOffset(state) {
 
 export function campSiteReducer(state = initialState, action = null) {
     switch (action.type) {
-        case DECREMENT_WEEK_OFFSET:
-            const current = state.get('weekOffset');
-            if (current >= 1) {
-                return state.set('weekOffset', current - 1);
-            } else {
-                return state;
-            }
-        case INCREMENT_WEEK_OFFSET:
-            return state.set('weekOffset', state.get('weekOffset') + 1);
-        case FETCHED_SITE_DATA:
-            /*
-            normalize the dates to moment objects and sort them.
-             */
-            const allDates = action.payload.get(0).get('availability')
-                .map((date) => {
-                    return moment(date, 'M/D/YYYY')
-                });
-            return state.set('campsiteData', action.payload).set('allDates', allDates);
-
-        case FILTER_TEXT_CHANGED:
-            return state.set('filterText', action.payload);
-
-        default:
+    case DECREMENT_WEEK_OFFSET: {
+        const current = state.get('weekOffset');
+        if (current >= 1) {
+            return state.set('weekOffset', current - 1);
+        } else {
             return state;
+        }
+    }
+    case INCREMENT_WEEK_OFFSET:
+        return state.set('weekOffset', state.get('weekOffset') + 1);
+    case FETCHED_SITE_DATA: {
+        /*
+         normalize the dates to moment objects and sort them.
+         */
+        const allDates = action.payload.get(0).get('availability')
+          .map((date) => {
+              return moment(date, 'M/D/YYYY');
+          });
+        return state.set('campsiteData', action.payload).set('allDates', allDates);
+    }
+    case FILTER_TEXT_CHANGED:
+        return state.set('filterText', action.payload);
+
+    default:
+        return state;
     }
 }

@@ -4,7 +4,7 @@ require('babel-register')({
 });
 const Hapi = require('hapi');
 const dateFormat = require('dateformat');
-const format = "dd mmm HH:MM:ss";
+const format = 'dd mmm HH:MM:ss';
 const util = require('util');
 const agent = require('superagent');
 
@@ -66,7 +66,7 @@ server.register([{
                     reply(res.body);
                 });
         }
-    })
+    });
 
     server.start(function() {
         console.log('proxying to java server at http://localhost:8080');

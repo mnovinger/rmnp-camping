@@ -8,10 +8,10 @@ export default class FilterInput extends Component {
 
     render() {
         const inputProps = {
-            type: "text",
-            placeholder: "site name.",
+            type: 'text',
+            placeholder: 'site name.',
             value: this.props.filterText,
-            className: "form-control",
+            className: 'form-control',
             onChange: this._onFilterTextChange.bind(this),
         };
         return (
@@ -23,7 +23,7 @@ export default class FilterInput extends Component {
             </div>
         );
     }
-};
+}
 
 FilterInput.propTypes = {
     filterTextFt: React.PropTypes.func.isRequired,

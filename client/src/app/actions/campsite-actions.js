@@ -11,26 +11,26 @@ const fetchedSiteData = (payload) => {
     return {
         type: FETCHED_SITE_DATA,
         payload: payload
-    }
+    };
 };
 
 export function updateFilterText(text) {
     return {
         type: FILTER_TEXT_CHANGED,
         payload: text
-    }
+    };
 }
 
 export function incrementWeekOffset() {
     return {
         type: INCREMENT_WEEK_OFFSET
-    }
+    };
 }
 
 export function decrementWeekOffset() {
     return {
         type: DECREMENT_WEEK_OFFSET
-    }
+    };
 }
 
 export function fetchSiteData() {
@@ -47,5 +47,5 @@ export function fetchSiteData() {
                 }
             }
         );
-    }
+    };
 }
