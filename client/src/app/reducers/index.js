@@ -1,7 +1,14 @@
 /*eslint no-unused-vars:0 */
-import { combineReducers } from 'redux';
-import {campSiteReducer} from './campsite-reducer';
+import {combineReducers} from 'redux';
+import {campSiteReducer, stateKey} from './campsite-reducer';
+import {errorReducer} from './error-reducer';
 
-const rootReducer = campSiteReducer;
+export const campSiteKey = "campsite";
+export const errorKey = "error";
 
-export default rootReducer;
+const reducerConfig = {
+  "campsite": campSiteReducer,
+  "error": errorReducer,
+};
+
+export default combineReducers(reducerConfig);

@@ -10,7 +10,7 @@ describe('The CalendarControl Component', () => {
     const props = {
       filterTextFt: () => {},
       filterText: "Some Text",
-    }
+    };
 
     const tree = renderer.create(<FilterInput { ...props }/>).toJSON();
     expect(tree).toMatchSnapshot();

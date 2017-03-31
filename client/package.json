@@ -7,7 +7,8 @@
     "start": "node server.js",
     "build": "webpack -p --progress",
     "dev": "webpack --progress --color --watch & nodemon --debug server.js",
-    "test": "jest"
+    "test": "jest",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "jest": {
     "verbose": true,
@@ -53,6 +54,9 @@
     "babel-preset-react": "^6.5.0",
     "css-loader": "^0.28.0",
     "enzyme": "^2.8.0",
+    "eslint": "^3.19.0",
+    "eslint-plugin-jasmine": "^2.2.0",
+    "eslint-plugin-react": "^6.10.3",
     "glob": "^7.0.5",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^19.0.2",

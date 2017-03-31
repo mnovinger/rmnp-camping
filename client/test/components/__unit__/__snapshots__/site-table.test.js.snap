@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`The Site Table Component should render correctly 1`] = `
+exports[`The Site Table Component should render correctly with site data 1`] = `
 <div
   className="site-table-container container-fluid"
 >
@@ -53,5 +53,15 @@ exports[`The Site Table Component should render correctly 1`] = `
       </tr>
     </tbody>
   </table>
+</div>
+`;
+
+exports[`The Site Table Component should render correctly without site data 1`] = `
+<div
+  className="loadingIndicator"
+>
+  <h1>
+    Loading data
+  </h1>
 </div>
 `;

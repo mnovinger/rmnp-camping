@@ -1,5 +1,7 @@
 import agent from 'superagent';
 import Immutable from 'immutable';
+import { fetchError } from './error-actions';
+
 export const FETCHED_SITE_DATA = 'FETCHED_SITE_DATA';
 export const FILTER_TEXT_CHANGED = 'FILTER_TEXT_CHANGED';
 export const INCREMENT_WEEK_OFFSET = 'INCREMENT_WEEK_OFFSET';
@@ -33,7 +35,6 @@ export function decrementWeekOffset() {
 
 export function fetchSiteData() {
     return (dispatch) => {
-
         agent.get('/api/availability').end(
             (err, res) => {
                 if (res && res.ok) {
@@ -41,6 +42,8 @@ export function fetchSiteData() {
                     validate that we have the same number of dates here?
                      */
                     dispatch(fetchedSiteData(Immutable.fromJS(res.body)));
+                } else {
+                    dispatch(fetchError());
                 }
             }
         );

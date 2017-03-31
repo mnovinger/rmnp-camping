@@ -5,7 +5,7 @@ import moment from 'moment';
 import SiteTable from '../../../src/app/components/site-table';
 
 describe('The Site Table Component', () => {
-  it('should render correctly', () => {
+  it('should render correctly with site data', () => {
     const props = {
       dates: Immutable.fromJS([moment(), moment().add(1, 'days')]),
       campSiteData: Immutable.fromJS(
@@ -25,8 +25,18 @@ describe('The Site Table Component', () => {
         ]),
     };
 
-    const tree = renderer.create(< SiteTable { ...props }/>).toJSON();
+    const tree = renderer.create(<SiteTable { ...props }/>).toJSON();
     expect(tree).toMatchSnapshot();
   });
+
+  it('should render correctly without site data', () => {
+    const props = {
+      dates: Immutable.fromJS([moment(), moment().add(1, 'days')]),
+      campSiteData: Immutable.Map()
+    };
+
+    const tree = renderer.create(<SiteTable { ...props }/>).toJSON();
+    expect(tree).toMatchSnapshot();
+  })
 
 });

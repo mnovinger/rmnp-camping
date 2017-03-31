@@ -1,7 +1,5 @@
 import Immutable from 'immutable';
 import moment from 'moment';
-/*eslint no-unused-vars:0 */
-import util from 'util';
 import { FETCHED_SITE_DATA, FILTER_TEXT_CHANGED, DECREMENT_WEEK_OFFSET, INCREMENT_WEEK_OFFSET } from '../actions/campsite-actions';
 
 export const initialState = Immutable.fromJS({
@@ -12,12 +10,11 @@ export const initialState = Immutable.fromJS({
     weekOffset: 0
 });
 
+export const stateKey = 'campsite';
+
 export function getFilterText(state) {
+    debugger;
     return state.get('filterText');
-}
-
-function grabWeek() {
-
 }
 
 export function getSiteAvailability(state) {
@@ -35,7 +32,7 @@ export function getDates(state) {
     return state.get('allDates').skip(getWeekOffset(state) * 7).take(7);
 }
 
-function getWeekOffset(state) {
+export function getWeekOffset(state) {
     return state.get('weekOffset');
 }
 
@@ -43,7 +40,7 @@ export function campSiteReducer(state = initialState, action = null) {
     switch (action.type) {
         case DECREMENT_WEEK_OFFSET:
             const current = state.get('weekOffset');
-            if (current > 1) {
+            if (current >= 1) {
                 return state.set('weekOffset', current - 1);
             } else {
                 return state;
