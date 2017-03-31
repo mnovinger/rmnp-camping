@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+import React from 'react';
+/* eslint-enable no-unused-vars */
 import renderer from 'react-test-renderer';
 import CalendarControl from '../../../src/app/components/calendar-control';
 

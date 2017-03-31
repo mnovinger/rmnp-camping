@@ -1,0 +1,18 @@
+.loading-container {
+    display: flex;
+    justify-content: center;
+}
+
+.loading-message {
+    padding: 0 1rem 0 1rem;
+    background-color: white;
+}
+
+h1.loading-text {
+    display: inline-block;
+}
+
+.loading-message img {
+    height: 50px;
+    margin-bottom: 25px;
+}

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import TableHeader from './table-header';
 import TableRow from './table-row';
 import TableLoadingIndicator from './table-loading-indicator';
 import './styles/site-tables.css';
 
-export default class CampSiteTable extends React.Component {
+export default class CampSiteTable extends Component {
 
     render() {
         if (this.props.campSiteData.isEmpty()) {

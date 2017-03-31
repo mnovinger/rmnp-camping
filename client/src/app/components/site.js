@@ -1,4 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
+/* eslint-enable no-unused-vars */
 import './styles/site.css';
 import FilterInput from './filter-input';
 import SiteTable from './site-table';

@@ -58,10 +58,19 @@ exports[`The Site Table Component should render correctly with site data 1`] = `
 
 exports[`The Site Table Component should render correctly without site data 1`] = `
 <div
-  className="loadingIndicator"
+  className="loading-container"
 >
-  <h1>
-    Loading data
-  </h1>
+  <div
+    className="loading-message"
+  >
+    <h1
+      className="loading-text"
+    >
+      Loading data
+    </h1>
+    <img
+      src="/gears.svg"
+    />
+  </div>
 </div>
 `;
