@@ -1,0 +1,27 @@
+
+.calendar-control {
+  margin-left: 3rem;
+}
+
+.cal-control-text {
+  margin: 0 2rem 0 2rem;
+  font-size: large;
+}
+
+//.cal-back-arrow {
+//  background: url('/kuba_arrow_back.png') no-repeat;
+//  background-size: contain;
+//}
+
+.cal-arrows {
+  max-width: 3rem;
+  height: auto;
+}
+
+.cal-arrows:hover {
+  box-shadow: 0 5px #666;
+}
+
+.cal-arrows:active {
+  transform: translateY(4px);
+}

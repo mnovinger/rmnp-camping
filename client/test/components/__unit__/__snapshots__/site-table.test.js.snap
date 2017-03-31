@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Site Table Component should render correctly 1`] = `
+<div
+  className="site-table-container container-fluid"
+>
+  <table
+    className="site-table"
+  >
+    <thead>
+      <tr>
+        <th
+          className="site-col"
+        >
+          Site
+        </th>
+        <th
+          className="status-col"
+        >
+          Fri 03/31
+        </th>
+        <th
+          className="status-col"
+        >
+          Sat 04/01
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          className="site-col"
+        >
+          Boundary Waters (001)
+        </td>
+        <td
+          className="status-col"
+        >
+          1
+        </td>
+      </tr>
+      <tr>
+        <td
+          className="site-col"
+        >
+          Olympic (002)
+        </td>
+        <td
+          className="status-col"
+        >
+          NA
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;

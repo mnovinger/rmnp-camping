@@ -1,0 +1,28 @@
+body {
+  background-color: black !important;
+}
+.header-container {
+  padding-bottom: 1rem;
+}
+.header {
+  background-image: url(/rmnp-background.jpg);
+  min-height: 300px;
+  background-size: cover;
+  margin-top: 1rem;
+}
+.site-table-container {
+  overflow-x: auto;
+}
+.controls {
+  background-color: rgba(0, 0, 0, 0.43);
+  position: absolute;
+  top: 204px;
+  margin-left: 1rem;
+  color: white;
+  width: 78rem;
+}
+.calendar-control,
+.filter-input,
+.cal-control-text {
+  display: inline-block;
+}

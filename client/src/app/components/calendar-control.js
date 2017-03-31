@@ -1,4 +1,5 @@
 import React from 'react';
+import './styles/calendar-control.css';
 
 export default class CalendarControl extends React.Component {
     render() {

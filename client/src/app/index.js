@@ -1,10 +1,10 @@
 import React from 'react';
-import {render} from 'react-dom'
-import ViewerApp from './viewer-app';
+import { render } from 'react-dom'
+import SiteContainer from './containers/site-container';
 import reducer from './reducers';
 import thunkMiddleware from 'redux-thunk';
-import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
 
 const logger = store => next => action => {
     console.log('dispatching', action);
@@ -22,7 +22,7 @@ let store = createStoreWithMiddleware(reducer);
 
 render(
     <Provider store={store}>
-        <ViewerApp />
+        <SiteContainer />
     </Provider>,
     document.getElementById('root')
 );

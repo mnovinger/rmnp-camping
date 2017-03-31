@@ -1,5 +1,6 @@
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import './styles/table-header.css';
 
 export default class TableHeader extends React.Component {
     constructor(props) {

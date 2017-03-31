@@ -1,0 +1,35 @@
+table.site-table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  background-color: white;
+}
+
+.site-col {
+  width: 24rem;
+  text-align: left;
+}
+
+.status-col {
+  width: 6rem;
+  text-align: center;
+}
+
+.site-table th,
+td {
+  border: 1px solid #ddd;
+  padding: 0 5px 0 5px;
+}
+
+.site-table tr:nth-child(even) {
+  background-color: #f2f2f2
+}
+
+.site-table th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+
+

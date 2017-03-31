@@ -5,18 +5,17 @@ exports[`The CalendarControl Component should render correctly 1`] = `
   className="filter-input"
 >
   <div
-    class="form-group"
+    className="form-group"
   >
     <label
-      class="control-label"
-      for="formControlsText"
+      className="control-label"
+      htmlFor="formControlsText"
     >
       Type to Filter
     </label>
     <input
       className="form-control"
       onChange={[Function]}
-      onKeyPress={undefined}
       placeholder="site name."
       type="text"
       value="Some Text"

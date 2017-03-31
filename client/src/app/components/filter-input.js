@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import './styles/filter-input.css';
 
 export default class FilterInput extends Component {
     _onFilterTextChange(e) {
@@ -12,12 +13,11 @@ export default class FilterInput extends Component {
             value: this.props.filterText,
             className: "form-control",
             onChange: this._onFilterTextChange.bind(this),
-            onKeyPress: this._preventEnterSubmission,
-        }
+        };
         return (
             <div className="filter-input">
-                <div class="form-group">
-                    <label for="formControlsText" class="control-label">Type to Filter</label>
+                <div className="form-group">
+                    <label htmlFor="formControlsText" className="control-label">Type to Filter</label>
                     <input  { ...inputProps } />
                 </div>
             </div>

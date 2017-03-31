@@ -5,7 +5,7 @@ export const FILTER_TEXT_CHANGED = 'FILTER_TEXT_CHANGED';
 export const INCREMENT_WEEK_OFFSET = 'INCREMENT_WEEK_OFFSET';
 export const DECREMENT_WEEK_OFFSET = 'DECREMENT_WEEK_OFFSET';
 
-var fetchedSiteData = (payload) => {
+const fetchedSiteData = (payload) => {
     return {
         type: FETCHED_SITE_DATA,
         payload: payload
