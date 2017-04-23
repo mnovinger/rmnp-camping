@@ -14,7 +14,8 @@ export default class Site extends Component {
         };
         const tableProps = {
             dates: this.props.dates,
-            campSiteData: this.props.siteAvailability
+            campSiteData: this.props.siteAvailability,
+            showOnlyAvailable: this.props.showOnlyAvailable
         };
         const calendarControlProps = {
             dates: this.props.dates,
@@ -29,6 +30,10 @@ export default class Site extends Component {
                   <div className="controls">
                       <FilterInput { ...filterProps }/>
                       <CalendarControl { ...calendarControlProps }/>
+                      <div className="filter-available">
+                          <input type="checkbox" label="Filter Unavailable" onClick= { this.props.toggleAvailable } value={ this.props.showOnlyAvailable }/>
+                          <p>Only show available sites.</p>
+                      </div>
                   </div>
               </div>
               <SiteTable { ...tableProps }/>

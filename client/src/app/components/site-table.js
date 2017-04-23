@@ -12,7 +12,7 @@ export default class CampSiteTable extends Component {
         }
 
         const siteRows = this.props.campSiteData.map((campsite, idx) => {
-            return <TableRow key={idx} campSite={campsite}/>;
+            return <TableRow key={idx} campSite={campsite} showOnlyAvailable={this.props.showOnlyAvailable}/>;
         });
         return (
       <div className="site-table-container container-fluid">

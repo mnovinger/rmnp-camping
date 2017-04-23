@@ -12,6 +12,10 @@ export default class TableRow extends React.Component {
         const statuses = site.get('availability').map((status, idx) => {
             return <td key={idx} className="status-col">{status.get('status')}</td>;
         });
+
+        if (this.props.showOnlyAvailable && site.get('availability').filter((status) => status.get('status') != "NA").size == 0 ) {
+            return null;
+        }
         return (
             <tr>
                 <td className="site-col">{site.get('name') + ' (' + site.get('id') + ')'}</td>
@@ -22,5 +26,6 @@ export default class TableRow extends React.Component {
 }
 
 TableRow.propTypes = {
-    campSite: React.PropTypes.object.isRequired
+    campSite: React.PropTypes.object.isRequired,
+    showOnlyAvailable: React.PropTypes.bool
 };

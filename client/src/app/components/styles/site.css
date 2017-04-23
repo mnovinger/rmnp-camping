@@ -19,10 +19,24 @@ body {
   top: 204px;
   margin-left: 1rem;
   color: white;
-  width: 78rem;
+  width: 66rem;
 }
 .calendar-control,
 .filter-input,
-.cal-control-text {
+.cal-control-text,
+.filter-available,
+.filter-available > p {
   display: inline-block;
+}
+
+.filter-input > .form-group {
+  margin-bottom: -2px;
+}
+
+.filter-available {
+  margin-left: 1rem;
+}
+
+.filter-available > p {
+  margin-left: .5rem;
 }

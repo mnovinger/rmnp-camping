@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Site from '../components/site';
-import { fetchSiteData, updateFilterText, incrementWeekOffset, decrementWeekOffset } from '../actions/campsite-actions';
-import { getFilterText, getSiteAvailability, getDates } from '../reducers/campsite-reducer';
+import { fetchSiteData, updateFilterText, incrementWeekOffset, decrementWeekOffset, toggleAvailable } from '../actions/campsite-actions';
+import { getFilterText, getSiteAvailability, getDates, getShouldShowOnlyAvailable } from '../reducers/campsite-reducer';
 import { campSiteKey } from '../reducers/index';
 
 export class SiteContainer extends Component {
@@ -26,7 +26,8 @@ function mapStateToProps(state) {
         state: state,
         filterText: getFilterText(state),
         dates: getDates(state),
-        siteAvailability: getSiteAvailability(state)
+        siteAvailability: getSiteAvailability(state),
+        showOnlyAvailable: getShouldShowOnlyAvailable(state)
     };
 }
 
@@ -35,7 +36,8 @@ function mapDispatchToProps(dispatch) {
         fetchSiteData: () => dispatch(fetchSiteData()),
         filterTextFt: (text) => dispatch(updateFilterText(text)),
         incrementWeekOffset: () => dispatch(incrementWeekOffset()),
-        decrementWeekOffset: () => dispatch(decrementWeekOffset())
+        decrementWeekOffset: () => dispatch(decrementWeekOffset()),
+        toggleAvailable: () => dispatch(toggleAvailable())
     };
 }
 

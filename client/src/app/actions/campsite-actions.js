@@ -6,6 +6,7 @@ export const FETCHED_SITE_DATA = 'FETCHED_SITE_DATA';
 export const FILTER_TEXT_CHANGED = 'FILTER_TEXT_CHANGED';
 export const INCREMENT_WEEK_OFFSET = 'INCREMENT_WEEK_OFFSET';
 export const DECREMENT_WEEK_OFFSET = 'DECREMENT_WEEK_OFFSET';
+export const TOGGLE_AVAILABLE = 'TOGGLE_AVAILABLE';
 
 const fetchedSiteData = (payload) => {
     return {
@@ -30,6 +31,12 @@ export function incrementWeekOffset() {
 export function decrementWeekOffset() {
     return {
         type: DECREMENT_WEEK_OFFSET
+    };
+}
+
+export function toggleAvailable() {
+    return {
+        type: TOGGLE_AVAILABLE
     };
 }
 
