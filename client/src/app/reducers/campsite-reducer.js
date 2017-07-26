@@ -60,15 +60,19 @@ export function campSiteReducer(state = initialState, action = null) {
         case INCREMENT_WEEK_OFFSET:
             return state.set('weekOffset', state.get('weekOffset') + 1);
         case FETCHED_SITE_DATA: {
+            const sites = action.payload.get('sites');
+            const lastUpdated = action.payload.get('lastUpdated');
             /*
              normalize the dates to moment objects and sort them.
              */
-            const allDates = action.payload.get(0).get('availability')
+            const allDates = sites.get(0).get('availability')
                 .map((date) => {
                     return moment(date, 'M/D/YYYY');
                 });
-            const campSiteData = action.payload.sort();
-            return state.set('campsiteData', campSiteData).set('allDates', allDates);
+            const campSiteData = sites.sort();
+            return state.set('campsiteData', campSiteData)
+                .set('allDates', allDates)
+                .set('lastUpdated', lastUpdated);
         }
         case FILTER_TEXT_CHANGED:
             return state.set('filterText', action.payload);

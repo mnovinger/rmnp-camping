@@ -3,6 +3,7 @@ package com.mattnovinger.apps.rmnpcamping.rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mattnovinger.apps.rmnpcamping.domain.CampSite;
+import com.mattnovinger.apps.rmnpcamping.domain.CampsiteAvailabilityResponse;
 import com.mattnovinger.apps.rmnpcamping.func.AvailabilityParser;
 import com.mattnovinger.apps.rmnpcamping.func.parse2016.AvailabilityParser2016;
 import com.mattnovinger.apps.rmnpcamping.func.FileFetcher;
@@ -40,13 +41,14 @@ public class AvailabilityGenerator {
         if (cachedAvailabilityJson == null || moreThanSixHoursSinceUpdate(lastFetchDate)) {
             try {
                 InputStream pdfFile = FileFetcher.fetchFile();
+                lastFetchDate = LocalDateTime.now();
                 String extractedAvailabilityTest = PdfExtractor.extract(pdfFile);
                 AvailabilityParser parser = new AvailabilityParser2017();
                 List<CampSite> cachedCampsites = parser.buildAvailability(extractedAvailabilityTest);
+                CampsiteAvailabilityResponse response = new CampsiteAvailabilityResponse(cachedCampsites, lastFetchDate.toString());
                 Gson gson = new GsonBuilder()
                         .setDateFormat(DateFormat.SHORT, DateFormat.SHORT).create();
-                cachedAvailabilityJson = gson.toJson(cachedCampsites);
-                lastFetchDate = LocalDateTime.now();
+                cachedAvailabilityJson = gson.toJson(response);
             } catch (IOException e) {
                 e.printStackTrace();
                 return "{\"msg\":\"error fetching or parsing\"}";

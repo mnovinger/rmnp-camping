@@ -32,7 +32,7 @@ export default class Site extends Component {
                       <CalendarControl { ...calendarControlProps }/>
                       <div className="filter-available">
                           <input type="checkbox" label="Filter Unavailable" onClick= { this.props.toggleAvailable } value={ this.props.showOnlyAvailable }/>
-                          <p>Only show available sites.</p>
+                          <p>Only sites with availability.</p>
                       </div>
                   </div>
               </div>

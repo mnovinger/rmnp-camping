@@ -12,8 +12,9 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'idea'
+apply plugin: 'application'
 
-//mainClassName = 'com.mattnovinger.apps.rmnpcamping.App'
+mainClassName = 'com.mattnovinger.apps.rmnpcamping.App'
 
 group = 'com.mattnovinger.apps'
 version = '1.0-SNAPSHOT'

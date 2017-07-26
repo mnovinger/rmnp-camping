@@ -8,3 +8,4 @@ java-server/*.iws
 java-server/*.iml
 java-server/out/
 java-server/.gradle/
+java-server/.gradle
