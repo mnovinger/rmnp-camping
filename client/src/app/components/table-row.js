@@ -17,7 +17,7 @@ export default class TableRow extends React.Component {
             return null;
         }
         return (
-            <tr>
+            <tr className="site-row">
                 <td className="site-col">{site.get('name') + ' (' + site.get('id') + ')'}</td>
                 {statuses}
             </tr>

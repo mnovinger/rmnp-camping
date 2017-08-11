@@ -30,6 +30,6 @@ td {
   color: white;
 }
 
-
-
-
+tr.site-row:hover {
+  background-color: yellow;
+}
