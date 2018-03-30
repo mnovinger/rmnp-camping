@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import java.util.*;
 
 /**
- * Created by novma03 on 3/29/17.
+ * Created by Matt Novinger on 3/29/17.
  */
 public abstract class AvailabilityParser {
     protected static final String statusRegex = "(FULL|\\d|NA)";

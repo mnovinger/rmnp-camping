@@ -12,6 +12,7 @@ const Default = React.createClass({
                     <link rel="stylesheet" href="css/campsite-status.css" type="text/css"/>
                     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
                     <link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css"/>
+                    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet"/>
                 </head>
                 <body>
                     <div id="root"></div>

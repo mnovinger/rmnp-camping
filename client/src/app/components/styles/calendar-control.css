@@ -4,7 +4,7 @@
 }
 
 .cal-control-text {
-  margin: 0 2rem 0 2rem;
+  margin: 0 2rem 0 1rem;
   font-size: large;
 }
 
@@ -25,4 +25,8 @@
 
 .cal-arrows:active {
   transform: translateY(4px);
+}
+
+.calendar-control > span.picker {
+  margin-left: 1rem;
 }

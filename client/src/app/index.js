@@ -7,6 +7,7 @@ import reducer from './reducers';
 import thunkMiddleware from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import { ThemeProvider } from 'mineral-ui/themes';
 
 const logger = store => next => action => {
     /* eslint-disable no-console */
@@ -18,15 +19,17 @@ const logger = store => next => action => {
 };
 
 const createStoreWithMiddleware = applyMiddleware(
-  thunkMiddleware, // lets us dispatch() functions
-  logger // neat middleware that logs actions
+    thunkMiddleware, // lets us dispatch() functions
+    logger // neat middleware that logs actions
 )(createStore);
 
 let store = createStoreWithMiddleware(reducer);
 
 render(
-  <Provider store={store}>
-      <SiteContainer />
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <ThemeProvider>
+            <SiteContainer/>
+        </ThemeProvider>
+    </Provider>,
+    document.getElementById('root')
 );

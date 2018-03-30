@@ -5,14 +5,14 @@ import com.google.gson.GsonBuilder;
 import com.mattnovinger.apps.rmnpcamping.domain.CampSite;
 import com.mattnovinger.apps.rmnpcamping.domain.CampsiteAvailabilityResponse;
 import com.mattnovinger.apps.rmnpcamping.func.AvailabilityParser;
-import com.mattnovinger.apps.rmnpcamping.func.parse2016.AvailabilityParser2016;
 import com.mattnovinger.apps.rmnpcamping.func.FileFetcher;
 import com.mattnovinger.apps.rmnpcamping.func.PdfExtractor;
+import com.mattnovinger.apps.rmnpcamping.func.parse2017.AvailabilityParser2017;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
@@ -20,35 +20,33 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
-import com.mattnovinger.apps.rmnpcamping.func.parse2017.AvailabilityParser2017;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.CrossOrigin;
-
 /**
  * Created by mnovinger on 8/22/16.
  */
-@Component
-@CrossOrigin
-@Path("/")
+@RestController
 public class AvailabilityGenerator {
     private String cachedAvailabilityJson = null;
     private LocalDateTime lastFetchDate = null;
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @GET
-    @Path("availability")
-    @Produces(MediaType.APPLICATION_JSON)
+    // TODO put a mutex around the fetch
+    @RequestMapping(path = "/api/availability", produces = "application/json; charset=UTF-8")
     public String getAvailability() {
         if (cachedAvailabilityJson == null || moreThanSixHoursSinceUpdate(lastFetchDate)) {
             try {
+                log.warn("Starting fetching of a new availability file.");
                 InputStream pdfFile = FileFetcher.fetchFile();
+                log.info("Done fetching new availability file.");
                 lastFetchDate = LocalDateTime.now();
                 String extractedAvailabilityTest = PdfExtractor.extract(pdfFile);
+                log.info("Done extracting availability PDF.");
                 AvailabilityParser parser = new AvailabilityParser2017();
                 List<CampSite> cachedCampsites = parser.buildAvailability(extractedAvailabilityTest);
                 CampsiteAvailabilityResponse response = new CampsiteAvailabilityResponse(cachedCampsites, lastFetchDate.toString());
                 Gson gson = new GsonBuilder()
                         .setDateFormat(DateFormat.SHORT, DateFormat.SHORT).create();
                 cachedAvailabilityJson = gson.toJson(response);
+                log.info("Done parsing new availability file.");
             } catch (IOException e) {
                 e.printStackTrace();
                 return "{\"msg\":\"error fetching or parsing\"}";

@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import static org.junit.Assert.*;
 
 /**
- * Created by novma03 on 3/29/17.
+ * Created by Matt Novinger on 3/29/17.
  */
 public class AvailabilityParser2017Test {
     public static final String ALL_AVAILABILITY_DATA = "./src/test/fixtures/parsed-availability-03-28-2017.txt";

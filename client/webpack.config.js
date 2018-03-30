@@ -18,7 +18,7 @@ module.exports = {
     new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor", /* filename= */"vendor.bundle.js")//,
     //new BundleAnalyzerPlugin()
   ],
-  devtool: 'eval-source-map',
+  devtool: 'source-map',
   module: {
     loaders: [
       {

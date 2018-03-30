@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Site from '../components/site';
 import { fetchSiteData, updateFilterText, incrementWeekOffset, decrementWeekOffset, toggleAvailable } from '../actions/campsite-actions';
-import { getFilterText, getSiteAvailability, getDates, getShouldShowOnlyAvailable } from '../reducers/campsite-reducer';
+import { getFilterText, getSiteAvailability, getDates, getShouldShowOnlyAvailable, getDataFetched, getWeekOffset } from '../reducers/campsite-reducer';
 import { campSiteKey } from '../reducers/index';
 
 export class SiteContainer extends Component {
@@ -22,12 +22,15 @@ export class SiteContainer extends Component {
 function mapStateToProps(state) {
     state = state[campSiteKey];
 
+    const weekOffset = getWeekOffset(state);
+
     return {
-        state: state,
         filterText: getFilterText(state),
         dates: getDates(state),
-        siteAvailability: getSiteAvailability(state),
-        showOnlyAvailable: getShouldShowOnlyAvailable(state)
+        siteAvailability: getSiteAvailability(state, weekOffset * 7),
+        showOnlyAvailable: getShouldShowOnlyAvailable(state),
+        dataFetched: getDataFetched(state),
+        weekOffset,
     };
 }
 

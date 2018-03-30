@@ -11,7 +11,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Created by novma03 on 3/29/17.
+ * Created by Matt Novinger on 3/29/17.
  */
 public class AvailabilityParser2017 extends AvailabilityParser {
     private static final String CAMP_AREA_REGEX = "";//""(?<area>North\n" + "Fork Area)\n";

@@ -3,6 +3,7 @@ table.site-table {
   width: 100%;
   table-layout: fixed;
   background-color: white;
+  margin-bottom: 1rem;
 }
 
 .site-col {

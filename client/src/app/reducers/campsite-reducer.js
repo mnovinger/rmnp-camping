@@ -14,20 +14,21 @@ export const initialState = Immutable.fromJS({
     selectedDates: [],
     filterText: '',
     weekOffset: 0,
-    showOnlyAvailable: false
+    showOnlyAvailable: false,
+    dataFetched: false
 });
 
 export function getFilterText(state) {
     return state.get('filterText');
 }
 
-export function getSiteAvailability(state) {
+export function getSiteAvailability(state, offset) {
     const filteredSites = state.get('campsiteData').filter((site) => {
         return site.get('name').toUpperCase().includes(getFilterText(state).toUpperCase());
     });
 
     return filteredSites.map((site) => {
-        const filteredStatus = site.get('availability').skip(getWeekOffset(state) * 7).take(7);
+        const filteredStatus = site.get('availability').skip(offset).take(7);
         return site.set('availability', filteredStatus);
     });
 }
@@ -42,6 +43,10 @@ export function getWeekOffset(state) {
 
 export function getShouldShowOnlyAvailable(state) {
     return state.get('showOnlyAvailable');
+}
+
+export function getDataFetched(state) {
+    return state.get('dataFetched');
 }
 
 export function campSiteReducer(state = initialState, action = null) {
@@ -72,7 +77,8 @@ export function campSiteReducer(state = initialState, action = null) {
             const campSiteData = sites.sort();
             return state.set('campsiteData', campSiteData)
                 .set('allDates', allDates)
-                .set('lastUpdated', lastUpdated);
+                .set('lastUpdated', lastUpdated)
+                .set('dataFetched', true);
         }
         case FILTER_TEXT_CHANGED:
             return state.set('filterText', action.payload);
