@@ -11,7 +11,7 @@ module.exports = {
     vendor: ["react", "redux", "react-dom", "immutable", "moment"]
   },
   output: {
-    path: '../java-server/src/main/resources/static/js',
+    path: './public/js',
     filename: 'bundle.js'
   },
   plugins: [

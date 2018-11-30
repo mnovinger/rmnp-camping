@@ -39,6 +39,7 @@ const siteCoords = {
   '012': { left: '1685px', top: '660px' },
   '022': { left: '1542px', top: '977px' },
   '023': { left: '1563px', top: '860px' },
+  '026': { left: '1369px', top: '1580px' },
   '030': { left: '1267px', top: '1721px' },
   '040': { left: '1440px', top: '1953px' },
   '080': { left: '1151px', top: '2114px' },
@@ -55,16 +56,19 @@ const MapDisplay = ({ dates, siteAvailability }) => {
     const siteCoord = siteCoords[siteId];
 
     // else if availablity.get(0) !== 'NA'
-    if (!siteCoord) {
-      console.log(`'${siteId}': {},`);
-    }
-    else {
-      const markerCoords = css(siteCoord);
-      acc.push((
-        <div key={siteId} css={[OverlayStyle, markerCoords]}>
-          <div css={siteNumberStyle}>{siteId}</div>
-        </div>
-      ));
+    const status = campsite.get('availability').get(0).get('status');
+    if (status !== 'NA' && status !== 'FULL') {
+      if (!siteCoord) {
+        console.log(`'${siteId}': {},`);
+      }
+      else {
+        const markerCoords = css(siteCoord);
+        acc.push((
+          <div key={siteId} css={[OverlayStyle, markerCoords]}>
+            <div css={siteNumberStyle}>{siteId}</div>
+          </div>
+        ));
+      }
     }
     return acc;
   }, []);

@@ -24,10 +24,8 @@ const CalendarArrowStyles = css({
 const CalendarControl = ({ decrementWeekOffset, incrementWeekOffset }) => {
   return (
     <div css={CalendarControlStyle}>
-      {/*<img css={CalendarArrowStyles} src="kuba_arrow_back.png" onClick={decrementWeekOffset}/>*/}
       <ArrowLeftIcon css={CalendarArrowStyles} onClick={decrementWeekOffset}/>
       <div css={CalendarTextStyle}>Move calendar</div>
-      {/*<img css={CalendarArrowStyles}  src="kuba_arrow_forward.png" onClick={incrementWeekOffset}/>*/}
       <ArrowRightIcon css={CalendarArrowStyles} onClick={incrementWeekOffset}/>
     </div>
   );

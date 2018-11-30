@@ -26,12 +26,23 @@ const FilterLabels = css`
 
 const ControlsStyles = css`
   background-color: rgba(0, 0, 0, 0.43);
-  position: absolute;
+  position: fixed;
   top: 199px;
   margin-left: 1rem;
   color: white;
   width: 66rem;
   padding-top: 1rem;
+  border: 2px solid white;
+`;
+
+const HeaderStyle = css`
+  background-image: url(/hallet-peak-at-dream-lake.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: 0% 91%; 
+  min-height: 300px;
+  margin-top: 1rem;
 `;
 
 const Site = ({ filterTextFt, filterText, dates, siteAvailability, showOnlyAvailable, incrementWeekOffset, decrementWeekOffset, toggleAvailable, showMap, toggleMapFt }) => {
@@ -60,7 +71,7 @@ const Site = ({ filterTextFt, filterText, dates, siteAvailability, showOnlyAvail
   return (
     <div>
       <div className="container-fluid header-container">
-        <div className="header"/>
+        <div css={HeaderStyle}/>
         <div className="logo"/>
         <div css={ControlsStyles}>
           <div css={FilterContainer}>
@@ -69,12 +80,12 @@ const Site = ({ filterTextFt, filterText, dates, siteAvailability, showOnlyAvail
           </div>
           <div css={FilterContainer}>
             <div css={FilterFlexItem}>
-              <input type="checkbox" label="Filter Unavailable" onClick={toggleAvailable} value={showOnlyAvailable}/>
-              <p css={FilterLabels}>Only show sites with availability.</p>
+              <input type="checkbox" label="Filter Unavailable" onClick={toggleAvailable} checked={showOnlyAvailable}/>
+              <p css={FilterLabels} onClick={toggleAvailable} >Only show sites with availability.</p>
             </div>
             <div css={FilterFlexItem}>
-              <input type="checkbox" label="Show Map" onClick={toggleMapFt} value={showMap}/>
-              <p css={FilterLabels}>Show Map.</p>
+              <input type="checkbox" label="Show Map" onClick={toggleMapFt} checked={showMap}/>
+              <p css={FilterLabels} onClick={toggleMapFt} >Show Map.</p>
             </div>
             {
               showMap && dates.get(0) && <div css={FilterFlexItem}><p css={FilterLabels}>Availability for {dates.get(0).format('ddd MM/DD')}</p></div>

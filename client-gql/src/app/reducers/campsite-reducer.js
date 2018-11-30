@@ -16,7 +16,7 @@ export const initialState = Immutable.fromJS({
   filterText: '',
   weekOffset: 0,
   showOnlyAvailable: false,
-  showMap: true
+  showMap: false
 });
 
 export function getFilterText(state) {

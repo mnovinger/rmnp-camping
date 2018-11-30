@@ -4,12 +4,7 @@ body {
 .header-container {
   padding-bottom: 1rem;
 }
-.header {
-  background-image: url(/hallet-peak-at-dream-lake.jpg);
-  min-height: 300px;
-  background-size: cover;
-  margin-top: 1rem;
-}
+
 .site-table-container {
   overflow-x: auto;
   margin-bottom: 15px;
