@@ -10,9 +10,6 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * Created by Matt Novinger on 3/29/17.
- */
 public class AvailabilityParser2017 extends AvailabilityParser {
     private static final String CAMP_AREA_REGEX = "";//""(?<area>North\n" + "Fork Area)\n";
     private static final String DATE_REGEX = "(\\w{3}\n(?<date>\\d{2}\\/\\d{2})\n)";

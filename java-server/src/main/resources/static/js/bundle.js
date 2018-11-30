@@ -6,17 +6,17 @@ webpackJsonp([0],[
 	__webpack_require__(8);
 	__webpack_require__(9);
 	__webpack_require__(102);
-	__webpack_require__(351);
-	__webpack_require__(361);
-	__webpack_require__(369);
+	__webpack_require__(352);
 	__webpack_require__(362);
-	__webpack_require__(372);
-	__webpack_require__(366);
-	__webpack_require__(375);
-	__webpack_require__(405);
+	__webpack_require__(370);
+	__webpack_require__(363);
+	__webpack_require__(373);
+	__webpack_require__(367);
+	__webpack_require__(376);
+	__webpack_require__(406);
+	__webpack_require__(532);
 	__webpack_require__(531);
-	__webpack_require__(530);
-	module.exports = __webpack_require__(532);
+	module.exports = __webpack_require__(533);
 
 
 /***/ }),
@@ -7730,7 +7730,7 @@ webpackJsonp([0],[
 	
 	var _Button2 = _interopRequireDefault(_Button);
 	
-	var _IconDateRange = __webpack_require__(534);
+	var _IconDateRange = __webpack_require__(351);
 	
 	var _IconDateRange2 = _interopRequireDefault(_IconDateRange);
 	
@@ -12591,7 +12591,7 @@ webpackJsonp([0],[
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**!
 	 * @fileOverview Kickass library to create and place poppers near their reference elements.
-	 * @version 1.14.1
+	 * @version 1.14.6
 	 * @license
 	 * Copyright (c) 2016 Federico Zivolo and contributors
 	 *
@@ -12620,6 +12620,7 @@ webpackJsonp([0],[
 	}(this, (function () { 'use strict';
 	
 	var isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
+	
 	var longerTimeoutBrowsers = ['Edge', 'Trident', 'Firefox'];
 	var timeoutDuration = 0;
 	for (var i = 0; i < longerTimeoutBrowsers.length; i += 1) {
@@ -12693,7 +12694,8 @@ webpackJsonp([0],[
 	    return [];
 	  }
 	  // NOTE: 1 DOM access here
-	  var css = getComputedStyle(element, null);
+	  var window = element.ownerDocument.defaultView;
+	  var css = window.getComputedStyle(element, null);
 	  return property ? css[property] : css;
 	}
 	
@@ -12746,40 +12748,25 @@ webpackJsonp([0],[
 	  return getScrollParent(getParentNode(element));
 	}
 	
+	var isIE11 = isBrowser && !!(window.MSInputMethodContext && document.documentMode);
+	var isIE10 = isBrowser && /MSIE 10/.test(navigator.userAgent);
+	
 	/**
-	 * Tells if you are running Internet Explorer
+	 * Determines if the browser is Internet Explorer
 	 * @method
 	 * @memberof Popper.Utils
-	 * @argument {number} version to check
+	 * @param {Number} version to check
 	 * @returns {Boolean} isIE
 	 */
-	var cache = {};
-	
-	var isIE = function () {
-	  var version = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'all';
-	
-	  version = version.toString();
-	  if (cache.hasOwnProperty(version)) {
-	    return cache[version];
+	function isIE(version) {
+	  if (version === 11) {
+	    return isIE11;
 	  }
-	  switch (version) {
-	    case '11':
-	      cache[version] = navigator.userAgent.indexOf('Trident') !== -1;
-	      break;
-	    case '10':
-	      cache[version] = navigator.appVersion.indexOf('MSIE 10') !== -1;
-	      break;
-	    case 'all':
-	      cache[version] = navigator.userAgent.indexOf('Trident') !== -1 || navigator.userAgent.indexOf('MSIE') !== -1;
-	      break;
+	  if (version === 10) {
+	    return isIE10;
 	  }
-	
-	  //Set IE
-	  cache.all = cache.all || Object.keys(cache).some(function (key) {
-	    return cache[key];
-	  });
-	  return cache[version];
-	};
+	  return isIE11 || isIE10;
+	}
 	
 	/**
 	 * Returns the offset parent of the given element
@@ -12796,7 +12783,7 @@ webpackJsonp([0],[
 	  var noOffsetParent = isIE(10) ? document.body : null;
 	
 	  // NOTE: 1 DOM access here
-	  var offsetParent = element.offsetParent;
+	  var offsetParent = element.offsetParent || null;
 	  // Skip hidden elements which don't have an offsetParent
 	  while (offsetParent === noOffsetParent && element.nextElementSibling) {
 	    offsetParent = (element = element.nextElementSibling).offsetParent;
@@ -12808,9 +12795,9 @@ webpackJsonp([0],[
 	    return element ? element.ownerDocument.documentElement : document.documentElement;
 	  }
 	
-	  // .offsetParent will return the closest TD or TABLE in case
+	  // .offsetParent will return the closest TH, TD or TABLE in case
 	  // no offsetParent is present, I hate this job...
-	  if (['TD', 'TABLE'].indexOf(offsetParent.nodeName) !== -1 && getStyleComputedProperty(offsetParent, 'position') === 'static') {
+	  if (['TH', 'TD', 'TABLE'].indexOf(offsetParent.nodeName) !== -1 && getStyleComputedProperty(offsetParent, 'position') === 'static') {
 	    return getOffsetParent(offsetParent);
 	  }
 	
@@ -12948,10 +12935,10 @@ webpackJsonp([0],[
 	}
 	
 	function getSize(axis, body, html, computedStyle) {
-	  return Math.max(body['offset' + axis], body['scroll' + axis], html['client' + axis], html['offset' + axis], html['scroll' + axis], isIE(10) ? html['offset' + axis] + computedStyle['margin' + (axis === 'Height' ? 'Top' : 'Left')] + computedStyle['margin' + (axis === 'Height' ? 'Bottom' : 'Right')] : 0);
+	  return Math.max(body['offset' + axis], body['scroll' + axis], html['client' + axis], html['offset' + axis], html['scroll' + axis], isIE(10) ? parseInt(html['offset' + axis]) + parseInt(computedStyle['margin' + (axis === 'Height' ? 'Top' : 'Left')]) + parseInt(computedStyle['margin' + (axis === 'Height' ? 'Bottom' : 'Right')]) : 0);
 	}
 	
-	function getWindowSizes() {
+	function getWindowSizes(document) {
 	  var body = document.body;
 	  var html = document.documentElement;
 	  var computedStyle = isIE(10) && getComputedStyle(html);
@@ -13068,7 +13055,7 @@ webpackJsonp([0],[
 	  };
 	
 	  // subtract scrollbar size from sizes
-	  var sizes = element.nodeName === 'HTML' ? getWindowSizes() : {};
+	  var sizes = element.nodeName === 'HTML' ? getWindowSizes(element.ownerDocument) : {};
 	  var width = sizes.width || element.clientWidth || result.right - result.left;
 	  var height = sizes.height || element.clientHeight || result.bottom - result.top;
 	
@@ -13103,7 +13090,7 @@ webpackJsonp([0],[
 	  var borderLeftWidth = parseFloat(styles.borderLeftWidth, 10);
 	
 	  // In cases where the parent is fixed, we must ignore negative scroll in offset calc
-	  if (fixedPosition && parent.nodeName === 'HTML') {
+	  if (fixedPosition && isHTML) {
 	    parentRect.top = Math.max(parentRect.top, 0);
 	    parentRect.left = Math.max(parentRect.left, 0);
 	  }
@@ -13241,7 +13228,7 @@ webpackJsonp([0],[
 	
 	    // In case of HTML, we need a different computation
 	    if (boundariesNode.nodeName === 'HTML' && !isFixed(offsetParent)) {
-	      var _getWindowSizes = getWindowSizes(),
+	      var _getWindowSizes = getWindowSizes(popper.ownerDocument),
 	          height = _getWindowSizes.height,
 	          width = _getWindowSizes.width;
 	
@@ -13256,10 +13243,12 @@ webpackJsonp([0],[
 	  }
 	
 	  // Add paddings
-	  boundaries.left += padding;
-	  boundaries.top += padding;
-	  boundaries.right -= padding;
-	  boundaries.bottom -= padding;
+	  padding = padding || 0;
+	  var isPaddingNumber = typeof padding === 'number';
+	  boundaries.left += isPaddingNumber ? padding : padding.left || 0;
+	  boundaries.top += isPaddingNumber ? padding : padding.top || 0;
+	  boundaries.right -= isPaddingNumber ? padding : padding.right || 0;
+	  boundaries.bottom -= isPaddingNumber ? padding : padding.bottom || 0;
 	
 	  return boundaries;
 	}
@@ -13356,9 +13345,10 @@ webpackJsonp([0],[
 	 * @returns {Object} object containing width and height properties
 	 */
 	function getOuterSizes(element) {
-	  var styles = getComputedStyle(element);
-	  var x = parseFloat(styles.marginTop) + parseFloat(styles.marginBottom);
-	  var y = parseFloat(styles.marginLeft) + parseFloat(styles.marginRight);
+	  var window = element.ownerDocument.defaultView;
+	  var styles = window.getComputedStyle(element);
+	  var x = parseFloat(styles.marginTop || 0) + parseFloat(styles.marginBottom || 0);
+	  var y = parseFloat(styles.marginLeft || 0) + parseFloat(styles.marginRight || 0);
 	  var result = {
 	    width: element.offsetWidth + y,
 	    height: element.offsetHeight + x
@@ -13532,6 +13522,7 @@ webpackJsonp([0],[
 	
 	  // compute the popper offsets
 	  data.offsets.popper = getPopperOffsets(this.popper, data.offsets.reference, data.placement);
+	
 	  data.offsets.popper.position = this.options.positionFixed ? 'fixed' : 'absolute';
 	
 	  // run the modifiers
@@ -13583,7 +13574,7 @@ webpackJsonp([0],[
 	}
 	
 	/**
-	 * Destroy the popper
+	 * Destroys the popper.
 	 * @method
 	 * @memberof Popper
 	 */
@@ -13690,7 +13681,7 @@ webpackJsonp([0],[
 	
 	/**
 	 * It will remove resize/scroll events and won't recalculate popper position
-	 * when they are triggered. It also won't trigger onUpdate callback anymore,
+	 * when they are triggered. It also won't trigger `onUpdate` callback anymore,
 	 * unless you call `update` method manually.
 	 * @method
 	 * @memberof Popper
@@ -13809,6 +13800,52 @@ webpackJsonp([0],[
 	
 	/**
 	 * @function
+	 * @memberof Popper.Utils
+	 * @argument {Object} data - The data object generated by `update` method
+	 * @argument {Boolean} shouldRound - If the offsets should be rounded at all
+	 * @returns {Object} The popper's position offsets rounded
+	 *
+	 * The tale of pixel-perfect positioning. It's still not 100% perfect, but as
+	 * good as it can be within reason.
+	 * Discussion here: https://github.com/FezVrasta/popper.js/pull/715
+	 *
+	 * Low DPI screens cause a popper to be blurry if not using full pixels (Safari
+	 * as well on High DPI screens).
+	 *
+	 * Firefox prefers no rounding for positioning and does not have blurriness on
+	 * high DPI screens.
+	 *
+	 * Only horizontal placement and left/right values need to be considered.
+	 */
+	function getRoundedOffsets(data, shouldRound) {
+	  var _data$offsets = data.offsets,
+	      popper = _data$offsets.popper,
+	      reference = _data$offsets.reference;
+	
+	
+	  var isVertical = ['left', 'right'].indexOf(data.placement) !== -1;
+	  var isVariation = data.placement.indexOf('-') !== -1;
+	  var sameWidthOddness = reference.width % 2 === popper.width % 2;
+	  var bothOddWidth = reference.width % 2 === 1 && popper.width % 2 === 1;
+	  var noRound = function noRound(v) {
+	    return v;
+	  };
+	
+	  var horizontalToInteger = !shouldRound ? noRound : isVertical || isVariation || sameWidthOddness ? Math.round : Math.floor;
+	  var verticalToInteger = !shouldRound ? noRound : Math.round;
+	
+	  return {
+	    left: horizontalToInteger(bothOddWidth && !isVariation && shouldRound ? popper.left - 1 : popper.left),
+	    top: verticalToInteger(popper.top),
+	    bottom: verticalToInteger(popper.bottom),
+	    right: horizontalToInteger(popper.right)
+	  };
+	}
+	
+	var isFirefox = isBrowser && /Firefox/i.test(navigator.userAgent);
+	
+	/**
+	 * @function
 	 * @memberof Modifiers
 	 * @argument {Object} data - The data object generated by `update` method
 	 * @argument {Object} options - Modifiers configuration and options
@@ -13837,13 +13874,7 @@ webpackJsonp([0],[
 	    position: popper.position
 	  };
 	
-	  // floor sides to avoid blurry text
-	  var offsets = {
-	    left: Math.floor(popper.left),
-	    top: Math.floor(popper.top),
-	    bottom: Math.floor(popper.bottom),
-	    right: Math.floor(popper.right)
-	  };
+	  var offsets = getRoundedOffsets(data, window.devicePixelRatio < 2 || !isFirefox);
 	
 	  var sideA = x === 'bottom' ? 'top' : 'bottom';
 	  var sideB = y === 'right' ? 'left' : 'right';
@@ -13865,12 +13896,22 @@ webpackJsonp([0],[
 	  var left = void 0,
 	      top = void 0;
 	  if (sideA === 'bottom') {
-	    top = -offsetParentRect.height + offsets.bottom;
+	    // when offsetParent is <html> the positioning is relative to the bottom of the screen (excluding the scrollbar)
+	    // and not the bottom of the html element
+	    if (offsetParent.nodeName === 'HTML') {
+	      top = -offsetParent.clientHeight + offsets.bottom;
+	    } else {
+	      top = -offsetParentRect.height + offsets.bottom;
+	    }
 	  } else {
 	    top = offsets.top;
 	  }
 	  if (sideB === 'right') {
-	    left = -offsetParentRect.width + offsets.right;
+	    if (offsetParent.nodeName === 'HTML') {
+	      left = -offsetParent.clientWidth + offsets.right;
+	    } else {
+	      left = -offsetParentRect.width + offsets.right;
+	    }
 	  } else {
 	    left = offsets.left;
 	  }
@@ -13979,7 +14020,7 @@ webpackJsonp([0],[
 	
 	  //
 	  // extends keepTogether behavior making sure the popper and its
-	  // reference have enough pixels in conjuction
+	  // reference have enough pixels in conjunction
 	  //
 	
 	  // top/left side
@@ -14049,7 +14090,7 @@ webpackJsonp([0],[
 	 * - `top-end` (on top of reference, right aligned)
 	 * - `right-start` (on right of reference, top aligned)
 	 * - `bottom` (on bottom, centered)
-	 * - `auto-right` (on the side with more space available, alignment depends by placement)
+	 * - `auto-end` (on the side with more space available, alignment depends by placement)
 	 *
 	 * @static
 	 * @type {Array}
@@ -14397,7 +14438,27 @@ webpackJsonp([0],[
 	    boundariesElement = getOffsetParent(boundariesElement);
 	  }
 	
+	  // NOTE: DOM access here
+	  // resets the popper's position so that the document size can be calculated excluding
+	  // the size of the popper element itself
+	  var transformProp = getSupportedPropertyName('transform');
+	  var popperStyles = data.instance.popper.style; // assignment to help minification
+	  var top = popperStyles.top,
+	      left = popperStyles.left,
+	      transform = popperStyles[transformProp];
+	
+	  popperStyles.top = '';
+	  popperStyles.left = '';
+	  popperStyles[transformProp] = '';
+	
 	  var boundaries = getBoundaries(data.instance.popper, data.instance.reference, options.padding, boundariesElement, data.positionFixed);
+	
+	  // NOTE: DOM access here
+	  // restores the original style properties after the offsets have been computed
+	  popperStyles.top = top;
+	  popperStyles.left = left;
+	  popperStyles[transformProp] = transform;
+	
 	  options.boundaries = boundaries;
 	
 	  var order = options.priority;
@@ -14571,7 +14632,7 @@ webpackJsonp([0],[
 	   * The `offset` modifier can shift your popper on both its axis.
 	   *
 	   * It accepts the following units:
-	   * - `px` or unitless, interpreted as pixels
+	   * - `px` or unit-less, interpreted as pixels
 	   * - `%` or `%r`, percentage relative to the length of the reference element
 	   * - `%p`, percentage relative to the length of the popper element
 	   * - `vw`, CSS viewport width unit
@@ -14579,7 +14640,7 @@ webpackJsonp([0],[
 	   *
 	   * For length is intended the main axis relative to the placement of the popper.<br />
 	   * This means that if the placement is `top` or `bottom`, the length will be the
-	   * `width`. In case of `left` or `right`, it will be the height.
+	   * `width`. In case of `left` or `right`, it will be the `height`.
 	   *
 	   * You can provide a single value (as `Number` or `String`), or a pair of values
 	   * as `String` divided by a comma or one (or more) white spaces.<br />
@@ -14600,7 +14661,7 @@ webpackJsonp([0],[
 	   * ```
 	   * > **NB**: If you desire to apply offsets to your poppers in a way that may make them overlap
 	   * > with their reference element, unfortunately, you will have to disable the `flip` modifier.
-	   * > More on this [reading this issue](https://github.com/FezVrasta/popper.js/issues/373)
+	   * > You can read more on this at this [issue](https://github.com/FezVrasta/popper.js/issues/373).
 	   *
 	   * @memberof modifiers
 	   * @inner
@@ -14621,7 +14682,7 @@ webpackJsonp([0],[
 	  /**
 	   * Modifier used to prevent the popper from being positioned outside the boundary.
 	   *
-	   * An scenario exists where the reference itself is not within the boundaries.<br />
+	   * A scenario exists where the reference itself is not within the boundaries.<br />
 	   * We can say it has "escaped the boundaries" — or just "escaped".<br />
 	   * In this case we need to decide whether the popper should either:
 	   *
@@ -14651,23 +14712,23 @@ webpackJsonp([0],[
 	    /**
 	     * @prop {number} padding=5
 	     * Amount of pixel used to define a minimum distance between the boundaries
-	     * and the popper this makes sure the popper has always a little padding
+	     * and the popper. This makes sure the popper always has a little padding
 	     * between the edges of its container
 	     */
 	    padding: 5,
 	    /**
 	     * @prop {String|HTMLElement} boundariesElement='scrollParent'
-	     * Boundaries used by the modifier, can be `scrollParent`, `window`,
+	     * Boundaries used by the modifier. Can be `scrollParent`, `window`,
 	     * `viewport` or any DOM element.
 	     */
 	    boundariesElement: 'scrollParent'
 	  },
 	
 	  /**
-	   * Modifier used to make sure the reference and its popper stay near eachothers
-	   * without leaving any gap between the two. Expecially useful when the arrow is
-	   * enabled and you want to assure it to point to its reference element.
-	   * It cares only about the first axis, you can still have poppers with margin
+	   * Modifier used to make sure the reference and its popper stay near each other
+	   * without leaving any gap between the two. Especially useful when the arrow is
+	   * enabled and you want to ensure that it points to its reference element.
+	   * It cares only about the first axis. You can still have poppers with margin
 	   * between the popper and its reference element.
 	   * @memberof modifiers
 	   * @inner
@@ -14685,7 +14746,7 @@ webpackJsonp([0],[
 	   * This modifier is used to move the `arrowElement` of the popper to make
 	   * sure it is positioned between the reference element and its popper element.
 	   * It will read the outer size of the `arrowElement` node to detect how many
-	   * pixels of conjuction are needed.
+	   * pixels of conjunction are needed.
 	   *
 	   * It has no effect if no `arrowElement` is provided.
 	   * @memberof modifiers
@@ -14724,7 +14785,7 @@ webpackJsonp([0],[
 	     * @prop {String|Array} behavior='flip'
 	     * The behavior used to change the popper's placement. It can be one of
 	     * `flip`, `clockwise`, `counterclockwise` or an array with a list of valid
-	     * placements (with optional variations).
+	     * placements (with optional variations)
 	     */
 	    behavior: 'flip',
 	    /**
@@ -14734,9 +14795,9 @@ webpackJsonp([0],[
 	    padding: 5,
 	    /**
 	     * @prop {String|HTMLElement} boundariesElement='viewport'
-	     * The element which will define the boundaries of the popper position,
-	     * the popper will never be placed outside of the defined boundaries
-	     * (except if keepTogether is enabled)
+	     * The element which will define the boundaries of the popper position.
+	     * The popper will never be placed outside of the defined boundaries
+	     * (except if `keepTogether` is enabled)
 	     */
 	    boundariesElement: 'viewport'
 	  },
@@ -14800,8 +14861,8 @@ webpackJsonp([0],[
 	    fn: computeStyle,
 	    /**
 	     * @prop {Boolean} gpuAcceleration=true
-	     * If true, it uses the CSS 3d transformation to position the popper.
-	     * Otherwise, it will use the `top` and `left` properties.
+	     * If true, it uses the CSS 3D transformation to position the popper.
+	     * Otherwise, it will use the `top` and `left` properties
 	     */
 	    gpuAcceleration: true,
 	    /**
@@ -14828,7 +14889,7 @@ webpackJsonp([0],[
 	   * Note that if you disable this modifier, you must make sure the popper element
 	   * has its position set to `absolute` before Popper.js can do its work!
 	   *
-	   * Just disable this modifier and define you own to achieve the desired effect.
+	   * Just disable this modifier and define your own to achieve the desired effect.
 	   *
 	   * @memberof modifiers
 	   * @inner
@@ -14845,27 +14906,27 @@ webpackJsonp([0],[
 	    /**
 	     * @deprecated since version 1.10.0, the property moved to `computeStyle` modifier
 	     * @prop {Boolean} gpuAcceleration=true
-	     * If true, it uses the CSS 3d transformation to position the popper.
-	     * Otherwise, it will use the `top` and `left` properties.
+	     * If true, it uses the CSS 3D transformation to position the popper.
+	     * Otherwise, it will use the `top` and `left` properties
 	     */
 	    gpuAcceleration: undefined
 	  }
 	};
 	
 	/**
-	 * The `dataObject` is an object containing all the informations used by Popper.js
-	 * this object get passed to modifiers and to the `onCreate` and `onUpdate` callbacks.
+	 * The `dataObject` is an object containing all the information used by Popper.js.
+	 * This object is passed to modifiers and to the `onCreate` and `onUpdate` callbacks.
 	 * @name dataObject
 	 * @property {Object} data.instance The Popper.js instance
 	 * @property {String} data.placement Placement applied to popper
 	 * @property {String} data.originalPlacement Placement originally defined on init
 	 * @property {Boolean} data.flipped True if popper has been flipped by flip modifier
-	 * @property {Boolean} data.hide True if the reference element is out of boundaries, useful to know when to hide the popper.
+	 * @property {Boolean} data.hide True if the reference element is out of boundaries, useful to know when to hide the popper
 	 * @property {HTMLElement} data.arrowElement Node used as arrow by arrow modifier
-	 * @property {Object} data.styles Any CSS property defined here will be applied to the popper, it expects the JavaScript nomenclature (eg. `marginBottom`)
-	 * @property {Object} data.arrowStyles Any CSS property defined here will be applied to the popper arrow, it expects the JavaScript nomenclature (eg. `marginBottom`)
+	 * @property {Object} data.styles Any CSS property defined here will be applied to the popper. It expects the JavaScript nomenclature (eg. `marginBottom`)
+	 * @property {Object} data.arrowStyles Any CSS property defined here will be applied to the popper arrow. It expects the JavaScript nomenclature (eg. `marginBottom`)
 	 * @property {Object} data.boundaries Offsets of the popper boundaries
-	 * @property {Object} data.offsets The measurements of popper, reference and arrow elements.
+	 * @property {Object} data.offsets The measurements of popper, reference and arrow elements
 	 * @property {Object} data.offsets.popper `top`, `left`, `width`, `height` values
 	 * @property {Object} data.offsets.reference `top`, `left`, `width`, `height` values
 	 * @property {Object} data.offsets.arrow] `top` and `left` offsets, only one of them will be different from 0
@@ -14873,9 +14934,9 @@ webpackJsonp([0],[
 	
 	/**
 	 * Default options provided to Popper.js constructor.<br />
-	 * These can be overriden using the `options` argument of Popper.js.<br />
-	 * To override an option, simply pass as 3rd argument an object with the same
-	 * structure of this object, example:
+	 * These can be overridden using the `options` argument of Popper.js.<br />
+	 * To override an option, simply pass an object with the same
+	 * structure of the `options` object, as the 3rd argument. For example:
 	 * ```
 	 * new Popper(ref, pop, {
 	 *   modifiers: {
@@ -14889,7 +14950,7 @@ webpackJsonp([0],[
 	 */
 	var Defaults = {
 	  /**
-	   * Popper's placement
+	   * Popper's placement.
 	   * @prop {Popper.placements} placement='bottom'
 	   */
 	  placement: 'bottom',
@@ -14901,7 +14962,7 @@ webpackJsonp([0],[
 	  positionFixed: false,
 	
 	  /**
-	   * Whether events (resize, scroll) are initially enabled
+	   * Whether events (resize, scroll) are initially enabled.
 	   * @prop {Boolean} eventsEnabled=true
 	   */
 	  eventsEnabled: true,
@@ -14915,17 +14976,17 @@ webpackJsonp([0],[
 	
 	  /**
 	   * Callback called when the popper is created.<br />
-	   * By default, is set to no-op.<br />
+	   * By default, it is set to no-op.<br />
 	   * Access Popper.js instance with `data.instance`.
 	   * @prop {onCreate}
 	   */
 	  onCreate: function onCreate() {},
 	
 	  /**
-	   * Callback called when the popper is updated, this callback is not called
+	   * Callback called when the popper is updated. This callback is not called
 	   * on the initialization/creation of the popper, but only on subsequent
 	   * updates.<br />
-	   * By default, is set to no-op.<br />
+	   * By default, it is set to no-op.<br />
 	   * Access Popper.js instance with `data.instance`.
 	   * @prop {onUpdate}
 	   */
@@ -14933,7 +14994,7 @@ webpackJsonp([0],[
 	
 	  /**
 	   * List of modifiers used to modify the offsets before they are applied to the popper.
-	   * They provide most of the functionalities of Popper.js
+	   * They provide most of the functionalities of Popper.js.
 	   * @prop {modifiers}
 	   */
 	  modifiers: modifiers
@@ -14953,10 +15014,10 @@ webpackJsonp([0],[
 	// Methods
 	var Popper = function () {
 	  /**
-	   * Create a new Popper.js instance
+	   * Creates a new Popper.js instance.
 	   * @class Popper
 	   * @param {HTMLElement|referenceObject} reference - The reference element used to position the popper
-	   * @param {HTMLElement} popper - The HTML element used as popper.
+	   * @param {HTMLElement} popper - The HTML element used as the popper
 	   * @param {Object} options - Your custom options to override the ones defined in [Defaults](#defaults)
 	   * @return {Object} instance - The generated Popper.js instance
 	   */
@@ -15052,7 +15113,7 @@ webpackJsonp([0],[
 	    }
 	
 	    /**
-	     * Schedule an update, it will run on the next UI update available
+	     * Schedules an update. It will run on the next UI update available.
 	     * @method scheduleUpdate
 	     * @memberof Popper
 	     */
@@ -15089,7 +15150,7 @@ webpackJsonp([0],[
 	 * new Popper(referenceObject, popperNode);
 	 * ```
 	 *
-	 * NB: This feature isn't supported in Internet Explorer 10
+	 * NB: This feature isn't supported in Internet Explorer 10.
 	 * @name referenceObject
 	 * @property {Function} data.getBoundingClientRect
 	 * A function that returns a set of coordinates compatible with the native `getBoundingClientRect` method.
@@ -20652,6 +20713,62 @@ webpackJsonp([0],[
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	exports.default = IconDateRange;
+	
+	var _react = __webpack_require__(10);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Icon = __webpack_require__(90);
+	
+	var _Icon2 = _interopRequireDefault(_Icon);
+	
+	var _propTypes = __webpack_require__(82);
+	
+	var _propTypes2 = _interopRequireDefault(_propTypes);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var _ref = _jsx('g', {}, void 0, _jsx('path', {
+	  d: 'M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z'
+	}));
+	
+	/* eslint-disable prettier/prettier */
+	function IconDateRange(props) {
+	  var iconProps = _extends({
+	    rtl: false
+	  }, props);
+	
+	  return _react2.default.createElement(
+	    _Icon2.default,
+	    iconProps,
+	    _ref
+	  );
+	}
+	
+	IconDateRange.propTypes = {
+	  size: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.oneOf(['small']), _propTypes2.default.oneOf(['medium']), _propTypes2.default.oneOf(['large'])]),
+	  color: _propTypes2.default.string,
+	  rtl: _propTypes2.default.bool,
+	  title: _propTypes2.default.string
+	};
+	IconDateRange.displayName = 'IconDateRange';
+	IconDateRange.category = 'action';
+
+/***/ }),
+/* 352 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 	
@@ -20663,11 +20780,11 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	__webpack_require__(352);
+	__webpack_require__(353);
 	
-	var _Form = __webpack_require__(354);
+	var _Form = __webpack_require__(355);
 	
-	var _TextInput = __webpack_require__(358);
+	var _TextInput = __webpack_require__(359);
 	
 	var _TextInput2 = _interopRequireDefault(_TextInput);
 	
@@ -20725,13 +20842,13 @@ webpackJsonp([0],[
 	};
 
 /***/ }),
-/* 352 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(353);
+	var content = __webpack_require__(354);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(100)(content, {});
@@ -20751,7 +20868,7 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 353 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(99)(false);
@@ -20765,7 +20882,7 @@ webpackJsonp([0],[
 
 
 /***/ }),
-/* 354 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20774,7 +20891,7 @@ webpackJsonp([0],[
 	  value: true
 	});
 	
-	var _FormField = __webpack_require__(355);
+	var _FormField = __webpack_require__(356);
 	
 	Object.defineProperty(exports, 'FormField', {
 	  enumerable: true,
@@ -20783,7 +20900,7 @@ webpackJsonp([0],[
 	  }
 	});
 	
-	var _FormFieldset = __webpack_require__(356);
+	var _FormFieldset = __webpack_require__(357);
 	
 	Object.defineProperty(exports, 'FormFieldset', {
 	  enumerable: true,
@@ -20792,7 +20909,7 @@ webpackJsonp([0],[
 	  }
 	});
 	
-	var _FormFieldDivider = __webpack_require__(357);
+	var _FormFieldDivider = __webpack_require__(358);
 	
 	Object.defineProperty(exports, 'FormFieldDivider', {
 	  enumerable: true,
@@ -20804,7 +20921,7 @@ webpackJsonp([0],[
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 355 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21126,7 +21243,7 @@ webpackJsonp([0],[
 	exports.default = FormField;
 
 /***/ }),
-/* 356 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21209,7 +21326,7 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 357 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21265,7 +21382,7 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 358 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21274,7 +21391,7 @@ webpackJsonp([0],[
 	  value: true
 	});
 	
-	var _TextInput = __webpack_require__(359);
+	var _TextInput = __webpack_require__(360);
 	
 	Object.defineProperty(exports, 'default', {
 	  enumerable: true,
@@ -21286,7 +21403,7 @@ webpackJsonp([0],[
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /***/ }),
-/* 359 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21308,7 +21425,7 @@ webpackJsonp([0],[
 	
 	var _themes = __webpack_require__(290);
 	
-	var _FauxControl = __webpack_require__(360);
+	var _FauxControl = __webpack_require__(361);
 	
 	var _FauxControl2 = _interopRequireDefault(_FauxControl);
 	
@@ -21425,7 +21542,7 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 360 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21900,7 +22017,7 @@ webpackJsonp([0],[
 	exports.default = FauxControl;
 
 /***/ }),
-/* 361 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21915,15 +22032,15 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _tableHeader = __webpack_require__(362);
+	var _tableHeader = __webpack_require__(363);
 	
 	var _tableHeader2 = _interopRequireDefault(_tableHeader);
 	
-	var _tableRow = __webpack_require__(366);
+	var _tableRow = __webpack_require__(367);
 	
 	var _tableRow2 = _interopRequireDefault(_tableRow);
 	
-	__webpack_require__(367);
+	__webpack_require__(368);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -21987,7 +22104,7 @@ webpackJsonp([0],[
 	};
 
 /***/ }),
-/* 362 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22002,11 +22119,11 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactAddonsPureRenderMixin = __webpack_require__(363);
+	var _reactAddonsPureRenderMixin = __webpack_require__(364);
 	
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 	
-	__webpack_require__(364);
+	__webpack_require__(365);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -22067,7 +22184,7 @@ webpackJsonp([0],[
 	};
 
 /***/ }),
-/* 363 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -22093,13 +22210,13 @@ webpackJsonp([0],[
 
 
 /***/ }),
-/* 364 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(365);
+	var content = __webpack_require__(366);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(100)(content, {});
@@ -22119,7 +22236,7 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 365 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(99)(false);
@@ -22133,7 +22250,7 @@ webpackJsonp([0],[
 
 
 /***/ }),
-/* 366 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22148,7 +22265,7 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactAddonsPureRenderMixin = __webpack_require__(363);
+	var _reactAddonsPureRenderMixin = __webpack_require__(364);
 	
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 	
@@ -22214,13 +22331,13 @@ webpackJsonp([0],[
 	};
 
 /***/ }),
-/* 367 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(368);
+	var content = __webpack_require__(369);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(100)(content, {});
@@ -22240,7 +22357,7 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 368 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(99)(false);
@@ -22254,7 +22371,7 @@ webpackJsonp([0],[
 
 
 /***/ }),
-/* 369 */
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22269,13 +22386,13 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	__webpack_require__(370);
+	__webpack_require__(371);
 	
-	var _filterInput = __webpack_require__(351);
+	var _filterInput = __webpack_require__(352);
 	
 	var _filterInput2 = _interopRequireDefault(_filterInput);
 	
-	var _siteTable = __webpack_require__(361);
+	var _siteTable = __webpack_require__(362);
 	
 	var _siteTable2 = _interopRequireDefault(_siteTable);
 	
@@ -22283,7 +22400,7 @@ webpackJsonp([0],[
 	
 	var _calendarControl2 = _interopRequireDefault(_calendarControl);
 	
-	var _tableLoadingIndicator = __webpack_require__(372);
+	var _tableLoadingIndicator = __webpack_require__(373);
 	
 	var _tableLoadingIndicator2 = _interopRequireDefault(_tableLoadingIndicator);
 	
@@ -22373,13 +22490,13 @@ webpackJsonp([0],[
 	exports.default = Site;
 
 /***/ }),
-/* 370 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(371);
+	var content = __webpack_require__(372);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(100)(content, {});
@@ -22399,7 +22516,7 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 371 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(99)(false);
@@ -22413,7 +22530,7 @@ webpackJsonp([0],[
 
 
 /***/ }),
-/* 372 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22428,7 +22545,7 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	__webpack_require__(373);
+	__webpack_require__(374);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -22473,13 +22590,13 @@ webpackJsonp([0],[
 	exports.default = TableLoadingIndicator;
 
 /***/ }),
-/* 373 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(374);
+	var content = __webpack_require__(375);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(100)(content, {});
@@ -22499,7 +22616,7 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 374 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(99)(false);
@@ -22513,7 +22630,7 @@ webpackJsonp([0],[
 
 
 /***/ }),
-/* 375 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22529,17 +22646,17 @@ webpackJsonp([0],[
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactRedux = __webpack_require__(376);
+	var _reactRedux = __webpack_require__(377);
 	
-	var _site = __webpack_require__(369);
+	var _site = __webpack_require__(370);
 	
 	var _site2 = _interopRequireDefault(_site);
 	
 	var _campsiteActions = __webpack_require__(1);
 	
-	var _campsiteReducer = __webpack_require__(405);
+	var _campsiteReducer = __webpack_require__(406);
 	
-	var _index = __webpack_require__(530);
+	var _index = __webpack_require__(531);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -22614,7 +22731,7 @@ webpackJsonp([0],[
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(SiteContainer);
 
 /***/ }),
-/* 376 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22622,11 +22739,11 @@ webpackJsonp([0],[
 	exports.__esModule = true;
 	exports.connect = exports.Provider = undefined;
 	
-	var _Provider = __webpack_require__(377);
+	var _Provider = __webpack_require__(378);
 	
 	var _Provider2 = _interopRequireDefault(_Provider);
 	
-	var _connect = __webpack_require__(380);
+	var _connect = __webpack_require__(381);
 	
 	var _connect2 = _interopRequireDefault(_connect);
 	
@@ -22636,7 +22753,7 @@ webpackJsonp([0],[
 	exports.connect = _connect2["default"];
 
 /***/ }),
-/* 377 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -22650,11 +22767,11 @@ webpackJsonp([0],[
 	
 	var _propTypes2 = _interopRequireDefault(_propTypes);
 	
-	var _storeShape = __webpack_require__(378);
+	var _storeShape = __webpack_require__(379);
 	
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 	
-	var _warning = __webpack_require__(379);
+	var _warning = __webpack_require__(380);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
@@ -22724,7 +22841,7 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 378 */
+/* 379 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22744,7 +22861,7 @@ webpackJsonp([0],[
 	});
 
 /***/ }),
-/* 379 */
+/* 380 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -22774,7 +22891,7 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 380 */
+/* 381 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -22787,31 +22904,31 @@ webpackJsonp([0],[
 	
 	var _react = __webpack_require__(10);
 	
-	var _storeShape = __webpack_require__(378);
+	var _storeShape = __webpack_require__(379);
 	
 	var _storeShape2 = _interopRequireDefault(_storeShape);
 	
-	var _shallowEqual = __webpack_require__(381);
+	var _shallowEqual = __webpack_require__(382);
 	
 	var _shallowEqual2 = _interopRequireDefault(_shallowEqual);
 	
-	var _wrapActionCreators = __webpack_require__(382);
+	var _wrapActionCreators = __webpack_require__(383);
 	
 	var _wrapActionCreators2 = _interopRequireDefault(_wrapActionCreators);
 	
-	var _warning = __webpack_require__(379);
+	var _warning = __webpack_require__(380);
 	
 	var _warning2 = _interopRequireDefault(_warning);
 	
-	var _isPlainObject = __webpack_require__(385);
+	var _isPlainObject = __webpack_require__(386);
 	
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 	
-	var _hoistNonReactStatics = __webpack_require__(403);
+	var _hoistNonReactStatics = __webpack_require__(404);
 	
 	var _hoistNonReactStatics2 = _interopRequireDefault(_hoistNonReactStatics);
 	
-	var _invariant = __webpack_require__(404);
+	var _invariant = __webpack_require__(405);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
@@ -23175,7 +23292,7 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 381 */
+/* 382 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -23206,7 +23323,7 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 382 */
+/* 383 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23214,7 +23331,7 @@ webpackJsonp([0],[
 	exports.__esModule = true;
 	exports["default"] = wrapActionCreators;
 	
-	var _redux = __webpack_require__(383);
+	var _redux = __webpack_require__(384);
 	
 	function wrapActionCreators(actionCreators) {
 	  return function (dispatch) {
@@ -23223,7 +23340,6 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 383 */,
 /* 384 */,
 /* 385 */,
 /* 386 */,
@@ -23243,85 +23359,82 @@ webpackJsonp([0],[
 /* 400 */,
 /* 401 */,
 /* 402 */,
-/* 403 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 403 */,
+/* 404 */
+/***/ (function(module, exports) {
 
+	'use strict';
+	
 	/**
 	 * Copyright 2015, Yahoo! Inc.
 	 * Copyrights licensed under the New BSD License. See the accompanying LICENSE file for terms.
 	 */
-	(function (global, factory) {
-	     true ? module.exports = factory() :
-	    typeof define === 'function' && define.amd ? define(factory) :
-	    (global.hoistNonReactStatics = factory());
-	}(this, (function () {
-	    'use strict';
-	    
-	    var REACT_STATICS = {
-	        childContextTypes: true,
-	        contextTypes: true,
-	        defaultProps: true,
-	        displayName: true,
-	        getDefaultProps: true,
-	        getDerivedStateFromProps: true,
-	        mixins: true,
-	        propTypes: true,
-	        type: true
-	    };
-	    
-	    var KNOWN_STATICS = {
-	        name: true,
-	        length: true,
-	        prototype: true,
-	        caller: true,
-	        callee: true,
-	        arguments: true,
-	        arity: true
-	    };
-	    
-	    var defineProperty = Object.defineProperty;
-	    var getOwnPropertyNames = Object.getOwnPropertyNames;
-	    var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-	    var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
-	    var getPrototypeOf = Object.getPrototypeOf;
-	    var objectPrototype = getPrototypeOf && getPrototypeOf(Object);
-	    
-	    return function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
-	        if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
-	            
-	            if (objectPrototype) {
-	                var inheritedComponent = getPrototypeOf(sourceComponent);
-	                if (inheritedComponent && inheritedComponent !== objectPrototype) {
-	                    hoistNonReactStatics(targetComponent, inheritedComponent, blacklist);
-	                }
+	var REACT_STATICS = {
+	    childContextTypes: true,
+	    contextTypes: true,
+	    defaultProps: true,
+	    displayName: true,
+	    getDefaultProps: true,
+	    getDerivedStateFromProps: true,
+	    mixins: true,
+	    propTypes: true,
+	    type: true
+	};
+	
+	var KNOWN_STATICS = {
+	    name: true,
+	    length: true,
+	    prototype: true,
+	    caller: true,
+	    callee: true,
+	    arguments: true,
+	    arity: true
+	};
+	
+	var defineProperty = Object.defineProperty;
+	var getOwnPropertyNames = Object.getOwnPropertyNames;
+	var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+	var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
+	var getPrototypeOf = Object.getPrototypeOf;
+	var objectPrototype = getPrototypeOf && getPrototypeOf(Object);
+	
+	function hoistNonReactStatics(targetComponent, sourceComponent, blacklist) {
+	    if (typeof sourceComponent !== 'string') { // don't hoist over string (html) components
+	
+	        if (objectPrototype) {
+	            var inheritedComponent = getPrototypeOf(sourceComponent);
+	            if (inheritedComponent && inheritedComponent !== objectPrototype) {
+	                hoistNonReactStatics(targetComponent, inheritedComponent, blacklist);
 	            }
-	            
-	            var keys = getOwnPropertyNames(sourceComponent);
-	            
-	            if (getOwnPropertySymbols) {
-	                keys = keys.concat(getOwnPropertySymbols(sourceComponent));
-	            }
-	            
-	            for (var i = 0; i < keys.length; ++i) {
-	                var key = keys[i];
-	                if (!REACT_STATICS[key] && !KNOWN_STATICS[key] && (!blacklist || !blacklist[key])) {
-	                    var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
-	                    try { // Avoid failures from read-only properties
-	                        defineProperty(targetComponent, key, descriptor);
-	                    } catch (e) {}
-	                }
-	            }
-	            
-	            return targetComponent;
 	        }
-	        
+	
+	        var keys = getOwnPropertyNames(sourceComponent);
+	
+	        if (getOwnPropertySymbols) {
+	            keys = keys.concat(getOwnPropertySymbols(sourceComponent));
+	        }
+	
+	        for (var i = 0; i < keys.length; ++i) {
+	            var key = keys[i];
+	            if (!REACT_STATICS[key] && !KNOWN_STATICS[key] && (!blacklist || !blacklist[key])) {
+	                var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
+	                try { // Avoid failures from read-only properties
+	                    defineProperty(targetComponent, key, descriptor);
+	                } catch (e) {}
+	            }
+	        }
+	
 	        return targetComponent;
-	    };
-	})));
+	    }
+	
+	    return targetComponent;
+	}
+	
+	module.exports = hoistNonReactStatics;
 
 
 /***/ }),
-/* 404 */
+/* 405 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -23377,7 +23490,7 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 405 */
+/* 406 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23398,7 +23511,7 @@ webpackJsonp([0],[
 	
 	var _immutable2 = _interopRequireDefault(_immutable);
 	
-	var _moment = __webpack_require__(406);
+	var _moment = __webpack_require__(407);
 	
 	var _moment2 = _interopRequireDefault(_moment);
 	
@@ -23489,7 +23602,6 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 406 */,
 /* 407 */,
 /* 408 */,
 /* 409 */,
@@ -23613,7 +23725,8 @@ webpackJsonp([0],[
 /* 527 */,
 /* 528 */,
 /* 529 */,
-/* 530 */
+/* 530 */,
+/* 531 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23623,11 +23736,11 @@ webpackJsonp([0],[
 	});
 	exports.errorKey = exports.campSiteKey = undefined;
 	
-	var _redux = __webpack_require__(383);
+	var _redux = __webpack_require__(384);
 	
-	var _campsiteReducer = __webpack_require__(405);
+	var _campsiteReducer = __webpack_require__(406);
 	
-	var _errorReducer = __webpack_require__(531);
+	var _errorReducer = __webpack_require__(532);
 	
 	var campSiteKey = exports.campSiteKey = 'campsite'; /*eslint no-unused-vars:0 */
 	var errorKey = exports.errorKey = 'error';
@@ -23640,7 +23753,7 @@ webpackJsonp([0],[
 	exports.default = (0, _redux.combineReducers)(reducerConfig);
 
 /***/ }),
-/* 531 */
+/* 532 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23679,7 +23792,7 @@ webpackJsonp([0],[
 	}
 
 /***/ }),
-/* 532 */
+/* 533 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23690,21 +23803,21 @@ webpackJsonp([0],[
 	
 	var _reactDom = __webpack_require__(135);
 	
-	var _siteContainer = __webpack_require__(375);
+	var _siteContainer = __webpack_require__(376);
 	
 	var _siteContainer2 = _interopRequireDefault(_siteContainer);
 	
-	var _reducers = __webpack_require__(530);
+	var _reducers = __webpack_require__(531);
 	
 	var _reducers2 = _interopRequireDefault(_reducers);
 	
-	var _reduxThunk = __webpack_require__(533);
+	var _reduxThunk = __webpack_require__(534);
 	
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 	
-	var _reactRedux = __webpack_require__(376);
+	var _reactRedux = __webpack_require__(377);
 	
-	var _redux = __webpack_require__(383);
+	var _redux = __webpack_require__(384);
 	
 	var _themes = __webpack_require__(290);
 	
@@ -23743,7 +23856,7 @@ webpackJsonp([0],[
 	), document.getElementById('root'));
 
 /***/ }),
-/* 533 */
+/* 534 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -23769,62 +23882,6 @@ webpackJsonp([0],[
 	thunk.withExtraArgument = createThunkMiddleware;
 	
 	exports['default'] = thunk;
-
-/***/ }),
-/* 534 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _jsx = function () { var REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol.for && Symbol.for("react.element") || 0xeac7; return function createRawReactElement(type, props, key, children) { var defaultProps = type && type.defaultProps; var childrenLength = arguments.length - 3; if (!props && childrenLength !== 0) { props = {}; } if (props && defaultProps) { for (var propName in defaultProps) { if (props[propName] === void 0) { props[propName] = defaultProps[propName]; } } } else if (!props) { props = defaultProps || {}; } if (childrenLength === 1) { props.children = children; } else if (childrenLength > 1) { var childArray = Array(childrenLength); for (var i = 0; i < childrenLength; i++) { childArray[i] = arguments[i + 3]; } props.children = childArray; } return { $$typeof: REACT_ELEMENT_TYPE, type: type, key: key === undefined ? null : '' + key, ref: null, props: props, _owner: null }; }; }();
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	exports.default = IconDateRange;
-	
-	var _react = __webpack_require__(10);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _Icon = __webpack_require__(90);
-	
-	var _Icon2 = _interopRequireDefault(_Icon);
-	
-	var _propTypes = __webpack_require__(82);
-	
-	var _propTypes2 = _interopRequireDefault(_propTypes);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var _ref = _jsx('g', {}, void 0, _jsx('path', {
-	  d: 'M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20a2 2 0 0 0 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z'
-	}));
-	
-	/* eslint-disable prettier/prettier */
-	function IconDateRange(props) {
-	  var iconProps = _extends({
-	    rtl: false
-	  }, props);
-	
-	  return _react2.default.createElement(
-	    _Icon2.default,
-	    iconProps,
-	    _ref
-	  );
-	}
-	
-	IconDateRange.propTypes = {
-	  size: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.oneOf(['small']), _propTypes2.default.oneOf(['medium']), _propTypes2.default.oneOf(['large'])]),
-	  color: _propTypes2.default.string,
-	  rtl: _propTypes2.default.bool,
-	  title: _propTypes2.default.string
-	};
-	IconDateRange.displayName = 'IconDateRange';
-	IconDateRange.category = 'action';
 
 /***/ })
 ]);

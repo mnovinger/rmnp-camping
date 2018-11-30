@@ -1,0 +1,47 @@
+{
+  "name": "client-gql",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/core": "^10.0.0",
+    "@emotion/styled": "^10.0.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-register": "^6.9.0",
+    "dateformat": "^1.0.12",
+    "emotion": "^10.0.0",
+    "flux": "^2.1.1",
+    "hapi": "^13.4.1",
+    "hapi-react-views": "^9.0.0",
+    "immutable": "^3.8.1",
+    "inert": "^4.0.0",
+    "moment": "^2.13.0",
+    "object-assign": "^4.1.0",
+    "react": "^16.6.3",
+    "react-addons-pure-render-mixin": "^15.1.0",
+    "react-addons-shallow-compare": "^15.1.0",
+    "react-dom": "^16.6.3",
+    "react-redux": "^4.4.5",
+    "react-scripts": "2.1.1",
+    "react-virtualized": "^7.11.0",
+    "redux": "^3.5.2",
+    "redux-thunk": "^2.1.0",
+    "superagent": "^2.0.0",
+    "vision": "^4.1.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
