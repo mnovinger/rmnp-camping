@@ -14,14 +14,6 @@ body {
   overflow-x: auto;
   margin-bottom: 15px;
 }
-.controls {
-  background-color: rgba(0, 0, 0, 0.43);
-  position: absolute;
-  top: 199px;
-  margin-left: 1rem;
-  color: white;
-  width: 66rem;
-}
 .calendar-control,
 .cal-control-text,
 .filter-available,

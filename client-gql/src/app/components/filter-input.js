@@ -3,7 +3,6 @@ import React from 'react';
 import { css, jsx } from '@emotion/core';
 
 const filterInput = css`
-  margin: 1rem;
   width: 50%;
   display: inline-block;
 `;

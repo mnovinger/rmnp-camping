@@ -34,27 +34,50 @@ const siteNumberStyle = css`
 `;
 
 const siteCoords = {
-  10: { top: `554px`, left: `1763px`},
-  22: {left:'1542px', top:'977px'},
-  23: {left:'1563px', top:'860px'},
-  120: {left:'1207px', top:'460px'},
-  118: {left:'1279px', top:'545px'},
+  '001': { left: '2071px', top: '670px' },
+  '010': { top: `554px`, left: `1763px` },
+  '012': { left: '1685px', top: '660px' },
+  '022': { left: '1542px', top: '977px' },
+  '023': { left: '1563px', top: '860px' },
+  '030': { left: '1267px', top: '1721px' },
+  '040': { left: '1440px', top: '1953px' },
+  '080': { left: '1151px', top: '2114px' },
+  '088': { left: '892px', top: '1826px' },
+  '101': { left: '777px', top: '1425px' },
+  '120': { left: '1207px', top: '460px' },
+  '118': { left: '1279px', top: '545px' },
+
 };
 
-const MapDisplay = ({dates}) => {
-  const siteNumber = 22;
-  let markerCoords = css(siteCoords[siteNumber]);
+const MapDisplay = ({ dates, siteAvailability }) => {
+  const markers = siteAvailability.reduce((acc, campsite, idx) => {
+    const siteId = campsite.get('id');
+    const siteCoord = siteCoords[siteId];
+
+    // else if availablity.get(0) !== 'NA'
+    if (!siteCoord) {
+      console.log(`'${siteId}': {},`);
+    }
+    else {
+      const markerCoords = css(siteCoord);
+      acc.push((
+        <div key={siteId} css={[OverlayStyle, markerCoords]}>
+          <div css={siteNumberStyle}>{siteId}</div>
+        </div>
+      ));
+    }
+    return acc;
+  }, []);
 
   const moveMove = (e) => {
-    console.log(`{left:'${e.pageX - 2}px', top:'${e.pageY -46}px'},`);
-    markerCoords = css({left: `${e.pageX - 2}px`, top: `${e.pageY + 26}px`})
+    console.log(`{left:'${e.pageX - 2}px', top:'${e.pageY - 46}px'},`);
   };
 
   return (
     <div css={MapContainerStyle} onClick={moveMove}>
-      <div css={[OverlayStyle, markerCoords]}>
-        <div css={siteNumberStyle}>{siteNumber}</div>
-      </div>
+      {
+        markers
+      }
       <div css={MapDivStyle}>
       </div>
     </div>

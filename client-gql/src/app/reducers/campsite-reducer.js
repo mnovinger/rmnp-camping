@@ -16,7 +16,7 @@ export const initialState = Immutable.fromJS({
   filterText: '',
   weekOffset: 0,
   showOnlyAvailable: false,
-  showMap: false
+  showMap: true
 });
 
 export function getFilterText(state) {
@@ -29,13 +29,15 @@ export function getSiteAvailability(state) {
   });
 
   return filteredSites.map((site) => {
-    const filteredStatus = site.get('availability').skip(getWeekOffset(state) * 7).take(7);
+    const numOfDays = state.get("showMap") ? 1 : 7;
+    const filteredStatus = site.get('availability').skip(getWeekOffset(state) * numOfDays).take(7);
     return site.set('availability', filteredStatus);
   });
 }
 
 export function getDates(state) {
-  return state.get('allDates').skip(getWeekOffset(state) * 7).take(7);
+  const numOfDays = state.get("showMap") ? 1 : 7;
+  return state.get('allDates').skip(getWeekOffset(state) * numOfDays).take(7);
 }
 
 export function getWeekOffset(state) {

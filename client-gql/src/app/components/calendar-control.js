@@ -1,10 +1,12 @@
 import React from 'react';
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 
 const CalendarControlStyle = css`
-  margin-left: 3rem;
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const CalendarTextStyle = css`
@@ -14,18 +16,19 @@ const CalendarTextStyle = css`
 `;
 
 const CalendarArrowStyles = css({
-  'max-width': '3rem',
-  'height': 'auto',
-  ':hover': {'box-shadow': '0 5px #666'},
+  ':hover': {'fill': 'yellow'},
   ':active': {'transform': 'translateY(4px)'},
+  'transform': 'scale(2)',
 });
 
 const CalendarControl = ({ decrementWeekOffset, incrementWeekOffset }) => {
   return (
     <div css={CalendarControlStyle}>
-      <img css={CalendarArrowStyles} src="kuba_arrow_back.png" onClick={decrementWeekOffset}/>
+      {/*<img css={CalendarArrowStyles} src="kuba_arrow_back.png" onClick={decrementWeekOffset}/>*/}
+      <ArrowLeftIcon css={CalendarArrowStyles} onClick={decrementWeekOffset}/>
       <div css={CalendarTextStyle}>Move calendar</div>
-      <img css={CalendarArrowStyles}  src="kuba_arrow_forward.png" onClick={incrementWeekOffset}/>
+      {/*<img css={CalendarArrowStyles}  src="kuba_arrow_forward.png" onClick={incrementWeekOffset}/>*/}
+      <ArrowRightIcon css={CalendarArrowStyles} onClick={incrementWeekOffset}/>
     </div>
   );
 };
