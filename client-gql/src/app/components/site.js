@@ -40,7 +40,7 @@ const HeaderStyle = css`
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background-position: 0% 91%; 
+  background-position: 0% 65%; 
   min-height: 300px;
   margin-top: 1rem;
 `;
@@ -85,7 +85,7 @@ const Site = ({ filterTextFt, filterText, dates, siteAvailability, showOnlyAvail
             </div>
             <div css={FilterFlexItem}>
               <input type="checkbox" label="Show Map" onClick={toggleMapFt} checked={showMap}/>
-              <p css={FilterLabels} onClick={toggleMapFt} >Show Map.</p>
+              <p css={FilterLabels} onClick={toggleMapFt} >Show map.</p>
             </div>
             {
               showMap && dates.get(0) && <div css={FilterFlexItem}><p css={FilterLabels}>Availability for {dates.get(0).format('ddd MM/DD')}</p></div>

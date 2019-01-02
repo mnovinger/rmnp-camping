@@ -10,7 +10,7 @@ const CalendarControlStyle = css`
 `;
 
 const CalendarTextStyle = css`
-  margin: 0 2rem 0 2rem;
+  margin: 0 1rem 0 1rem;
   font-size: large;
   display: inline-block;
 `;

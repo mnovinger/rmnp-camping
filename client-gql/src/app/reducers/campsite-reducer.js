@@ -55,7 +55,7 @@ export function getShouldShowMap(state) {
 export function campSiteReducer(state = initialState, action = null) {
   switch (action.type) {
     case TOGGLE_MAP: {
-      return state.set('showMap', !state.get('showMap'));
+      return state.set('showMap', !state.get('showMap')).set('weekOffset', 0);
     }
     case TOGGLE_AVAILABLE: {
       return state.set('showOnlyAvailable', !state.get('showOnlyAvailable'));
